@@ -1,0 +1,74 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.searchHeader {
+  color: $primary-dark;
+  font-weight: 300;
+  border-bottom: 5px solid $primary-dark;
+  margin: 1rem 2.2rem;
+}
+
+.searchForm {
+  display: flex;
+  justify-content: center;
+}
+
+.inputAndBtnContainer {
+  width: 80vw;
+  display: flex;
+  justify-content: center;
+}
+
+.borderDiv {
+  border: 5px solid $primary-dark;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  z-index: 2;
+}
+
+.searchInput {
+  padding: 10px 0 10px 5px;
+  flex: 3;
+  background-color: $background-color;
+  border: none;
+
+}
+
+.searchBtn {
+  padding: 10px 0 10px 5px;
+  flex: 1;
+  border: none;
+  background-color: $primary-dark;
+  color: $background-color;
+  font-size: 1.3rem;
+}
+
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+
+}
+
+.bookTitleBtn,
+.authorBtn {
+  margin: 1rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 0rem;
+  width: 6rem;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.bookTitleBtn {
+  background-color: $primary-color;
+  color: $background-color;
+}
+
+.authorBtn {
+  background-color: $primary-dark;
+  color: $background-color;
+}
