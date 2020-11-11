@@ -51,43 +51,63 @@ exports.addFriendCtrl = async (req, res) => {
     const query = {name: req.body.user};
     const options = { new: true };
     // need to push to front of books array in database
-    const user = await User.findOneAndUpdate(query, { 
+    await User.findOneAndUpdate(query, { 
       $push: { 
         pendingFriends: req.body.friend_id  
     }}, options);
 
     // needs to add message to person that user has attempted to contact
     // add message to the front of their activity log array
-    await User.findOneAndUpdate({_id: req.body.friend_id}, {
+    const result = await User.findOneAndUpdate({_id: req.body.friend_id}, {
       $push: { 
         activityLog: {
-          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: user._id}],
+          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: req.body.name, activityId: 10}],
           $position: 0
      }}  
     })
-    res.status(201).send('SUCCESS')
+    res.status(201).send(result)
   } catch (error) {
-    console.error('ERROR', error)
+    console.error('MATT LOGGED THIS ERROR', error)
   }
 }
 
 exports.confirmFriendCtrl = async (req, res) => { 
   try {
     // { initiatorId: _id, responderId: _id }
-    const { initiatorId, responderId } = req.body;
+    const { initiatorId, responderId, messageId } = req.body;
 
     // 1. get initiator info (previous user)
-    const initiator = await User.findById(initiatorId)
-    // responderId is in Initator pendingFriends
-    // a => remove responderId from pendingFriends array
-
+    await User.findByIdAndUpdate(initiatorId, {
       // b => add responderId to friends array
+      $push : { friends: responderId },
+      $pull : { pendingFriends: responderId }
+    }, {new: true})
+    // c => get responder info and add initiator id to friends array
+    const responder = await User.findByIdAndUpdate(responderId, {
+      $push : { friends: initiatorId },
+      $pull : { activityLog: {activityId: messageId} }
+    }, {new: true, safe: true});
+    // const responder = await User.findById(responderId)
 
-      // c => get responder info and add initiator id to friends array
+    // responder.friends.push(initiatorId);
+    // responder.activityLog.pull({activityId: messageId})
+    // responder.markModified("friends", "activityLog")
+    // await responder.save()
+    
+    res.send(responder)
 
-      // send back Success
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
 
-
+exports.updateTargetCtrl = async (req, res) => {
+  const { _id, target} = req.body
+  try {
+    const updatedUser = await User.findByIdAndUpdate(_id, {
+      yearlyTarget: target
+    }, {new: true});
+    res.send(updatedUser)
   } catch (error) {
     console.error('ERROR', error)
   }

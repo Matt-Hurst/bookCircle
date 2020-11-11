@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
 
+const activityLogSchema = new mongoose.Schema({
+  message: String,
+  type: String,
+  senderId: {type: mongoose.ObjectId},
+  activityId: Number
+})
+
 const userSchema = mongoose.Schema({
   name: String,
   password: String,
   books: Array,
   friends: Array,
   pendingFriends: Array,
-  activityLog: Array,
+  activityLog: [activityLogSchema],
   yearlyTarget: Number
 });
 
