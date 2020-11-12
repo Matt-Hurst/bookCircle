@@ -101,6 +101,14 @@ const Search = () => {
     setQuestionSection((questionSection) => questionSection + 1 )
   }
 
+  const moveToPreviousQuestion = () => {
+    if (questionSetion === 1) {
+      setBookClicked(undefined)
+    } else {
+      setQuestionSection((questionSection) => questionSection - 1 )
+    }
+  }
+
   return (
     <div>
       
@@ -109,17 +117,17 @@ const Search = () => {
           {/* {bookClicked ? <img src={bookClicked.imageUrl} alt=""/>: <div className="standInBook"></div>} */}
           {questionSetion === 1 && <div className="addBookPopOutForm">
             <h2>When did you read this book?</h2>
-            <input type="date" onChange={(e) => handleDateChange(e, 'date')}/>
+            <input type="date" value={userInput.date} onChange={(e) => handleDateChange(e, 'date')}/>
             <div className="addBookPopOutFormBtns">
-              {/* <button onClick={moveToPreviousQuestion}>back to results</button> */}
+              <button onClick={moveToPreviousQuestion}>back to results</button>
               <button onClick={moveToNextQuestion}>next</button>
             </div>
           </div>}
           {questionSetion === 2 && <div className="addBookPopOutForm">
             <h2>What did you think?</h2>
-            <input className="addBookReviewInput" type="text" onChange={(e) => handleDateChange(e, 'review')}/>
+            <input className="addBookReviewInput" type="text" value={userInput.review} onChange={(e) => handleDateChange(e, 'review')}/>
             <div className="addBookPopOutFormBtns">
-              {/* <button onClick={moveToPreviousQuestion}>back to results</button> */}
+              <button onClick={moveToPreviousQuestion}>back</button>
               <button onClick={moveToNextQuestion}>next</button>
             </div>
           </div>}
@@ -129,7 +137,7 @@ const Search = () => {
               <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'star')}/>
               <label htmlFor="yes">star read</label>
               <div className="addBookPopOutFormBtns">
-                {/* <button onClick={moveToPreviousQuestion}>back to results</button> */}
+                <button onClick={moveToPreviousQuestion}>back</button>
                 <button onClick={moveToNextQuestion}>add book to bookcase</button>
               </div>
             </div>
