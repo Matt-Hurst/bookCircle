@@ -1,6 +1,8 @@
 import React from "react"
 import './SearchResults.scss'
 
+// TODO: make image of book clickable, bringing up a bigger image component and greying out background
+
 type Book = {
   volumeInfo: Object
 }
@@ -20,13 +22,13 @@ const SearchResults = ({titles}: BookProps) => {
       <div>{searchResults.map((result, i) => {
           return (
           <div className='searchBookResultContainer' key={i}>
-              {result.imageLinks ? <img className='searchBookImage' src={result.imageLinks.thumbnail} alt=""/> : <div className='standInBook'></div> }
+              {result.imageLinks ? <img className='searchBookImage' src={result.imageLinks.thumbnail} alt=""/> : <div className='standInBook'><h3>{result.title}</h3></div> }
               <div className='searchBookTextContent'>
                 <div className="titleAndAuthorContainer">
                 <h2 className="searchBookTitle">{result.title}</h2>
-                <h3 className="searchBookAuthor">by {result.authors[0]}</h3>
+          { result.authors ? <h3 className="searchBookAuthor">by {result.authors.join(' & ')}</h3> : null}
                 </div>
-              {result.categories ? <h2 className="searchBookGenre">{result.categories[0]}</h2> : null}
+              {result.categories ? <h2 className="searchBookGenre">{result.categories[0]}</h2> : <div style={{height: '23px'}}></div>}
               <button className="searchAddBookBtn">add to bookcase</button>
               </div>
           </div>

@@ -10,13 +10,13 @@ const Search = () => {
 
 
   const getBook = (name : String) : void => {
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=in${placeholder}:${name}&key=AIzaSyCPGabDlZJ8QKPihWNWfW-kl5yQtNFSlDc`)
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=in${placeholder}:${name}&maxResults=40&printType=books&key=AIzaSyCPGabDlZJ8QKPihWNWfW-kl5yQtNFSlDc`)
     .then(result => {
       return result.json();
     })
     .then(books => { 
       let data = books.items
-      setTitles(data.slice(0, 5))
+      setTitles(data.slice(0, 40))
       setIsSearch(true)
       console.log(titles);
     })
