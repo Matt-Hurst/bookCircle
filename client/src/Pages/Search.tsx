@@ -4,6 +4,10 @@ import './Search.scss'
 
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
 
+interface myProps {
+  userName: string;
+}
+
 interface bookClicked {
   title: string | undefined;
   authors: Array<string> | undefined;
@@ -14,10 +18,11 @@ interface bookClicked {
 interface userInput {
   date: any;
   review: string | undefined;
+  availableToLend: boolean;
   star: boolean;
 }
 
-const Search = () => {
+const Search = (props: myProps) => {
   const [search, setSearch] = useState('');
   const [placeholder, setPlaceholder] = useState('title'); 
   const [isSearch, setIsSearch] = useState(false);
@@ -26,6 +31,7 @@ const Search = () => {
   const [userInput, setUserInput] = useState<userInput>({
     date: undefined,
     review: undefined,
+    availableToLend: false,
     star: false,
   });
   const [questionSetion, setQuestionSection] = useState(1)
@@ -87,6 +93,13 @@ const Search = () => {
         review: e.target.value
       }})
     }
+    if (word === 'lend') {
+      setUserInput(prevUserInput => {
+        return {
+        ...prevUserInput,
+        availableToLend: !prevUserInput.availableToLend
+      }})
+    }
     if (word === 'star') {
       setUserInput(prevUserInput => {
         return {
@@ -108,6 +121,12 @@ const Search = () => {
       setQuestionSection((questionSection) => questionSection - 1 )
     }
   }
+
+  // TODO: create fetch request to send new book to server to add to user library
+  // const addBookToDataBase = (book) => {
+
+  // }
+  // TODO: put function into api file, import into this page
 
   return (
     <div>
@@ -132,6 +151,17 @@ const Search = () => {
             </div>
           </div>}
           {questionSetion === 3 && <div className="addBookPopOutForm">
+            <h2>Are you willing and able to lend this book to friends?</h2>
+            <div>
+              <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'lend')}/>
+              <label htmlFor="yes">I'm happy to lend this book</label>
+              <div className="addBookPopOutFormBtns">
+                <button onClick={moveToPreviousQuestion}>back</button>
+                <button onClick={moveToNextQuestion}>next</button>
+              </div>
+            </div>
+          </div>}
+          {questionSetion === 4 && <div className="addBookPopOutForm">
             <h2>Did this book change your life? Is it a must read? Check the below to mark it as a star read.</h2>
             <div>
               <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'star')}/>

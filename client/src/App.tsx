@@ -3,7 +3,6 @@ import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
 import './App.scss';
 
-
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState({loggedIn: false, name: 'Matt'})
 
@@ -13,7 +12,7 @@ function App() {
 
   return (
     <div>
-    { userLoggedIn.loggedIn ? <AuthenticatedApp /> : <UnauthenticatedApp /> }
+    { userLoggedIn.loggedIn ? <AuthenticatedApp user={userLoggedIn.name}/> : <UnauthenticatedApp /> }
    </div>
   );
 }

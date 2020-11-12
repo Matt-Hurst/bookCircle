@@ -2,12 +2,16 @@ import React from 'react';
 import Search from './Pages/Search'
 import AuthHeader from './Components/AuthHeader'
 
-const AuthenticatedApp = () => {
+interface myProps {
+  user: string;
+}
+
+const AuthenticatedApp = (props: myProps) => {
 
   return (
   <>
     <AuthHeader />
-    <Search />
+    <Search userName={props.user}/>
   </>
 
   )
