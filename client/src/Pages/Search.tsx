@@ -51,10 +51,10 @@ const Search = () => {
         </div>
       </form>
       <div className="buttonContainer">
-        <button className="bookTitleBtn" onClick={handleTitleClick}>book title</button>
-        <button className="authorBtn" onClick={handleAuthorClick}>author</button>
+        <button className={placeholder === 'title' ? "selectedSearchMethod" : "otherSearchMethod"} id="bookTitleBtn" onClick={handleTitleClick}>book title</button>
+        <button className={placeholder === 'author' ? "selectedSearchMethod" : "otherSearchMethod"} id="authorBtn" onClick={handleAuthorClick}>author</button>
       </div>
-    { isSearch && <SearchResults titles={titles} /> }
+    { }
     </div>
   )
 }
