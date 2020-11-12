@@ -20,19 +20,21 @@ $background-color: #F6E7D8;
   justify-content: center;
 }
 
-.borderDiv {
-  border: 5px solid $primary-dark;
-  border-radius: 10px;
-  width: 100%;
-  display: flex;
-  z-index: 2;
-}
+// .borderDiv {
+//   border: 5px solid $primary-dark;
+//   border-radius: 10px;
+//   width: 100%;
+//   display: flex;
+//   z-index: 2;
+// }
 
 .searchInput {
   padding: 10px 0 10px 5px;
   flex: 3;
   background-color: $background-color;
   border: none;
+  border: 5px solid $primary-dark;
+  border-radius: 10px 0px 0px 10px;
 
 }
 
@@ -43,6 +45,8 @@ $background-color: #F6E7D8;
   background-color: $primary-dark;
   color: $background-color;
   font-size: 1.3rem;
+  border: 5px solid $primary-dark;
+  border-radius: 0px 10px 10px 0px;
 }
 
 

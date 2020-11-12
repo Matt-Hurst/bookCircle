@@ -28,10 +28,8 @@ const Search = () => {
       <h1 className='searchHeader'>Search:</h1>
       <form className='searchForm' action="submit" onSubmit={handleSubmit}>
         <div className='inputAndBtnContainer'>
-          <div className="borderDiv">
-            <input className='searchInput' type="text" onChange={handleChange} value={search} placeholder={`search by ${placeholder}`}/>
-            <button className="searchBtn">search</button>
-          </div>
+          <input className='searchInput' type="text" onChange={handleChange} value={search} placeholder={`search by ${placeholder}`}/>
+          <button className="searchBtn">search</button>
         </div>
       </form>
       <div className="buttonContainer">
