@@ -9,7 +9,40 @@ $background-color: #F6E7D8;
   height: 100%;
   width: 100%;
   z-index: 10;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(182, 182, 182, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addBookPopOutDiv {
+  display: flex;
+  border: 5px solid $primary-dark;
+  border-radius: 10px;
+  background-color: $background-color;
+  max-height: 40vh;
+  max-width: 90vw;
+  align-items: center;
+
+  img {
+    max-height: 240px;
+    margin: 0 1rem;
+  }
+}
+
+.addBookPopOutForm {
+  margin: 1rem 1rem 1rem 0;
+
+  h2 {
+    font-weight: 300;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  input {
+    margin-bottom: 1rem;
+    overflow: none;
+  }
 }
 
 .searchHeader {
