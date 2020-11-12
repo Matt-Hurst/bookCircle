@@ -61,20 +61,20 @@ exports.addFriendCtrl = async (req, res) => {
     const result = await User.findOneAndUpdate({_id: req.body.friend_id}, {
       $push: { 
         activityLog: {
-          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: req.body.name, activityId: 10}],
+          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: req.body.name, createdAt: Date.now()}],
           $position: 0
      }}  
-    })
+    }, {new: true})
     res.status(201).send(result)
   } catch (error) {
-    console.error('MATT LOGGED THIS ERROR', error)
+    console.error('ERROR', error)
   }
 }
 
 exports.confirmFriendCtrl = async (req, res) => { 
   try {
     // { initiatorId: _id, responderId: _id }
-    const { initiatorId, responderId, messageId } = req.body;
+    const { initiatorId, responderId, createdAt } = req.body;
 
     // 1. get initiator info (previous user)
     await User.findByIdAndUpdate(initiatorId, {
@@ -85,7 +85,7 @@ exports.confirmFriendCtrl = async (req, res) => {
     // c => get responder info and add initiator id to friends array
     const responder = await User.findByIdAndUpdate(responderId, {
       $push : { friends: initiatorId },
-      $pull : { activityLog: {activityId: messageId} }
+      $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true, safe: true});
     // const responder = await User.findById(responderId)
 
@@ -115,18 +115,18 @@ exports.updateTargetCtrl = async (req, res) => {
 
 exports.rejectFriendRequestCtrl = async (req, res) => {
   try {
-    const {activityId, responderId, initiatorId} = req.body
-    // data { activityId = _id, responderId: 12312, initiatorId: 12321 }
+    const {createdAt, responderId, initiatorId} = req.body
+    // data { createdAt = _id, responderId: 12312, initiatorId: 12321 }
  
     // remove message from responder
     const responder = await User.findByIdAndUpdate(responderId, {
-      $pull : { activityLog: {activityId: activityId} }
+      $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true})
     // remove responder id from initiator prending array
     const initiator = await User.findByIdAndUpdate(initiatorId, {
         $push : {
           activityLog: {
-            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', activityId: 11}],
+            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', createdAt: Date.now()}],
             $position: 0 
         },
       },
@@ -134,6 +134,19 @@ exports.rejectFriendRequestCtrl = async (req, res) => {
     }, {new: true})
     // add rejected friend request to activity log
     res.send(initiator.activityLog)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
+exports.removeActivityLogElementCtrl = async (req, res) => {
+  try {
+    // data { userId: 13212, createdAt: "5fad2a..." }
+    const { userId, createdAt } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      $pull : { activityLog: {createdAt: createdAt} }
+    }, {new: true});
+    res.send(updatedUser)
   } catch (error) {
     console.error('ERROR', error)
   }

@@ -6,7 +6,8 @@ const {
   addFriendCtrl,
    confirmFriendCtrl, 
    updateTargetCtrl,
-   rejectFriendRequestCtrl
+   rejectFriendRequestCtrl,
+   removeActivityLogElementCtrl
    } = require('./controller')
 
 router.get('/', getCtrl)
@@ -16,14 +17,13 @@ router.post('/addFriend', addFriendCtrl)
 router.post('/confirmFriend', confirmFriendCtrl)
 router.put('/updateTarget', updateTargetCtrl)
 router.delete('/rejectFriendRequest', rejectFriendRequestCtrl)
+router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
 
 // ROUTES REQUIRED TODO:
 
 // TODO: get user info upon login => router.get('/:username')
 
 // TODO: remove book from library => router.delete('/removeBook') => if added wrong book for example
-
-// TODO: reject friend request => router.delete('/removeFriendRequest)
 
 // TODO: delete activity log element => router.delete('./removeActivityLogElement')
 

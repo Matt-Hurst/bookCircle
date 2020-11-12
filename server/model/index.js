@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const activityLogSchema = new mongoose.Schema({
   message: String,
   type: String,
-  senderId: {type: mongoose.ObjectId},
+  senderId: {type: mongoose.Schema.Types.ObjectId},
+  createdAt: Date,
   activityId: Number
 })
 
