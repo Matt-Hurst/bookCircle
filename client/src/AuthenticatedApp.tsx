@@ -3,6 +3,7 @@ import Search from './Pages/Search'
 import AuthHeader from './Components/AuthHeader'
 
 const AuthenticatedApp = () => {
+
   return (
   <>
     <AuthHeader />

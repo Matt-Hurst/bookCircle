@@ -7,18 +7,21 @@ type Book = {
   volumeInfo: Object
 }
 
-type BookProps = {
-  titles: Array<Book>,
+interface myProps {
+  titles: Array<Book>
+  handleBookClick : any
 }
 
-const SearchResults = ({titles}: BookProps) => {
+const SearchResults = (props: myProps) => {
+  const titles = props.titles;
+  const handleBookClick = props.handleBookClick;
+
   const searchResults: Array<any> = [];
     titles.forEach(title => {
         searchResults.push(title.volumeInfo)
     })
-    console.log('SEARCHRESULTS ARRAY',searchResults) // TODO: delete.
 
-    return (
+   return (
       <div>{searchResults.map((result, i) => {
           return (
           <div className='searchBookResultContainer' key={i}>
@@ -29,7 +32,15 @@ const SearchResults = ({titles}: BookProps) => {
           { result.authors ? <h3 className="searchBookAuthor">by {result.authors.join(' & ')}</h3> : null}
                 </div>
               {result.categories ? <h2 className="searchBookGenre">{result.categories[0]}</h2> : <div style={{height: '23px'}}></div>}
-              <button className="searchAddBookBtn">add to bookcase</button>
+              <button className="searchAddBookBtn" onClick={() => {
+                handleBookClick({
+                  title: result.title,
+                  authors: result.authors,
+                  imageUrl: result.imageLinks.thumbnail,
+                  genre: result.categories[0]
+                }) 
+              }}
+              >add to bookcase</button>
               </div>
           </div>
           )

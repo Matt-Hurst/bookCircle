@@ -2,6 +2,16 @@ $primary-color: #DA291C;
 $primary-dark: #1C191A;
 $background-color: #F6E7D8;
 
+.bookClickedDiv{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+}
+
 .searchHeader {
   color: $primary-dark;
   font-weight: 300;
@@ -19,14 +29,6 @@ $background-color: #F6E7D8;
   display: flex;
   justify-content: center;
 }
-
-// .borderDiv {
-//   border: 5px solid $primary-dark;
-//   border-radius: 10px;
-//   width: 100%;
-//   display: flex;
-//   z-index: 2;
-// }
 
 .searchInput {
   padding: 10px 0 10px 5px;

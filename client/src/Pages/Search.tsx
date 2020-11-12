@@ -7,6 +7,7 @@ const Search = () => {
   const [placeholder, setPlaceholder] = useState('title'); 
   const [isSearch, setIsSearch] = useState(false);
   const [titles, setTitles] = useState([]);
+  const [bookClicked, setBookClicked] = useState();
 
 
   const getBook = (name : String) : void => {
@@ -41,8 +42,14 @@ const Search = () => {
     setPlaceholder('title')
   };
 
+  const handleBookClick = (newBook: any): void => {
+    setBookClicked(newBook)
+    console.log('NEWBOOK', newBook)
+  }
+
   return (
     <div>
+    {bookClicked && <div className="bookClickedDiv"></div>}
       <h1 className='searchHeader'>Search:</h1>
       <form className='searchForm' action="submit" onSubmit={handleSubmit}>
         <div className='inputAndBtnContainer'>
@@ -54,7 +61,7 @@ const Search = () => {
         <button className={placeholder === 'title' ? "selectedSearchMethod" : "otherSearchMethod"} id="bookTitleBtn" onClick={handleTitleClick}>book title</button>
         <button className={placeholder === 'author' ? "selectedSearchMethod" : "otherSearchMethod"} id="authorBtn" onClick={handleAuthorClick}>author</button>
       </div>
-    { isSearch && <SearchResults titles={titles} />}
+    { isSearch && <SearchResults titles={titles} handleBookClick={handleBookClick} />}
     </div>
   )
 }

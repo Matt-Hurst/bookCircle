@@ -86,16 +86,8 @@ exports.confirmFriendCtrl = async (req, res) => {
     const responder = await User.findByIdAndUpdate(responderId, {
       $push : { friends: initiatorId },
       $pull : { activityLog: {createdAt: createdAt} }
-    }, {new: true, safe: true});
-    // const responder = await User.findById(responderId)
-
-    // responder.friends.push(initiatorId);
-    // responder.activityLog.pull({activityId: messageId})
-    // responder.markModified("friends", "activityLog")
-    // await responder.save()
-    
+    }, {new: true, safe: true});  
     res.send(responder)
-
   } catch (error) {
     console.error('ERROR', error)
   }

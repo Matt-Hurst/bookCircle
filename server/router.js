@@ -25,8 +25,6 @@ router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
 
 // TODO: remove book from library => router.delete('/removeBook') => if added wrong book for example
 
-// TODO: delete activity log element => router.delete('./removeActivityLogElement')
-
 // TODO: request book from friend => router.post('/requestBook)
 
 // TODO: accept book request => router.put('/acceptBookRequest')
