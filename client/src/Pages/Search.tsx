@@ -1,27 +1,45 @@
 import React, {useState} from 'react';
+import SearchResults from '../Components/SearchResults'
 import './Search.scss'
 
 const Search = () => {
   const [search, setSearch] = useState('');
-  const [placeholder, setPlaceholder] = useState('title') 
+  const [placeholder, setPlaceholder] = useState('title'); 
+  const [isSearch, setIsSearch] = useState(false);
+  const [titles, setTitles] = useState([]);
+
+
+  const getBook = (name : String) : void => {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=in${placeholder}:${name}&key=AIzaSyCPGabDlZJ8QKPihWNWfW-kl5yQtNFSlDc`)
+    .then(result => {
+      return result.json();
+    })
+    .then(books => { 
+      let data = books.items
+      setTitles(data.slice(0, 5))
+      setIsSearch(true)
+      console.log(titles);
+    })
+    .catch(error => {console.log(error)})
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Submitted form')
-    console.log(typeof(e))
-  }
+    getBook(search);
+    setSearch('');
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
-  }
+  };
 
   const handleAuthorClick = () => {
     setPlaceholder('author')
-  }
+  };
   
   const handleTitleClick = () => {
     setPlaceholder('title')
-  }
+  };
 
   return (
     <div>
@@ -36,6 +54,7 @@ const Search = () => {
         <button className="bookTitleBtn" onClick={handleTitleClick}>book title</button>
         <button className="authorBtn" onClick={handleAuthorClick}>author</button>
       </div>
+    { isSearch && <SearchResults titles={titles} /> }
     </div>
   )
 }
