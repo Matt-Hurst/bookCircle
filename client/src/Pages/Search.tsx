@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import SearchResults from '../Components/SearchResults'
 import './Search.scss'
 
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
 
 interface myProps {
-  userName: string;
+  username: string;
 }
 
 interface bookClicked {
@@ -22,7 +22,23 @@ interface userInput {
   star: boolean;
 }
 
-const Search = (props: myProps) => {
+interface book {
+  title: string | undefined;
+  authors: string[] | undefined;
+  imageUrl: string | undefined;
+  dateRead: string | undefined;
+  review: string | undefined;
+  availableToBorrow: boolean | undefined;
+  genre: string | undefined;
+  star: boolean | undefined; 
+}
+
+interface newBook {
+  book: book;
+  user: string
+}
+
+const Search = ({username}: myProps) => {
   const [search, setSearch] = useState('');
   const [placeholder, setPlaceholder] = useState('title'); 
   const [isSearch, setIsSearch] = useState(false);
@@ -35,11 +51,6 @@ const Search = (props: myProps) => {
     star: false,
   });
   const [questionSetion, setQuestionSection] = useState(1)
-
-  useEffect(() => {
-    console.log('bookClicked', bookClicked)
-    console.log('User Input', userInput)
-  },[bookClicked, userInput])
 
   const getBook = (name : String) : void => {
     fetch(`https://www.googleapis.com/books/v1/volumes?q=in${placeholder}:${name}&maxResults=40&printType=books&key=AIzaSyCPGabDlZJ8QKPihWNWfW-kl5yQtNFSlDc`)
@@ -107,7 +118,6 @@ const Search = (props: myProps) => {
         star: !prevUserInput.star
       }})
     }
-    console.log(e.target.value, typeof(e.target.value))
   }
 
   const moveToNextQuestion = () => {
@@ -123,9 +133,40 @@ const Search = (props: myProps) => {
   }
 
   // TODO: create fetch request to send new book to server to add to user library
-  // const addBookToDataBase = (book) => {
+  const addBookToDataBase = async () => {
+    const newBook:newBook = {
+      book: {
+        title: bookClicked?.title,
+        authors: bookClicked?.authors,
+        imageUrl: bookClicked?.imageUrl,
+        dateRead: userInput.date,
+        review: userInput.review,
+        availableToBorrow: userInput.availableToLend,
+        genre: bookClicked?.genre,
+        star: userInput.star 
+      },
+      user: username
+    }
 
-  // }
+    await fetch('http://localhost:3001/addBook', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newBook)
+    })
+    .then(response => response.json())
+    .then(result => console.log('FROM SERVER: ',result))// TODO: send this data somewhere useful!
+    setBookClicked(undefined);
+    setUserInput({
+      date: undefined,
+      review: undefined,
+      availableToLend: false,
+      star: false,
+    });
+    setQuestionSection(1);
+  }
+
   // TODO: put function into api file, import into this page
 
   return (
@@ -133,12 +174,11 @@ const Search = (props: myProps) => {
       
       {bookClicked && <div className="bookClickedDiv">
         <div className="addBookPopOutDiv">
-          {/* {bookClicked ? <img src={bookClicked.imageUrl} alt=""/>: <div className="standInBook"></div>} */}
           {questionSetion === 1 && <div className="addBookPopOutForm">
             <h2>When did you read this book?</h2>
             <input type="date" value={userInput.date} onChange={(e) => handleDateChange(e, 'date')}/>
             <div className="addBookPopOutFormBtns">
-              <button onClick={moveToPreviousQuestion}>back to results</button>
+              <button onClick={moveToPreviousQuestion}>back</button>
               <button onClick={moveToNextQuestion}>next</button>
             </div>
           </div>}
@@ -153,8 +193,10 @@ const Search = (props: myProps) => {
           {questionSetion === 3 && <div className="addBookPopOutForm">
             <h2>Are you willing and able to lend this book to friends?</h2>
             <div>
-              <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'lend')}/>
-              <label htmlFor="yes">I'm happy to lend this book</label>
+              <div className="checkboxDiv">
+                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'lend')}/>
+                <label htmlFor="yes">I'm happy to lend this book</label>
+              </div>
               <div className="addBookPopOutFormBtns">
                 <button onClick={moveToPreviousQuestion}>back</button>
                 <button onClick={moveToNextQuestion}>next</button>
@@ -164,11 +206,13 @@ const Search = (props: myProps) => {
           {questionSetion === 4 && <div className="addBookPopOutForm">
             <h2>Did this book change your life? Is it a must read? Check the below to mark it as a star read.</h2>
             <div>
-              <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'star')}/>
-              <label htmlFor="yes">star read</label>
+              <div className="checkboxDiv">
+                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'star')}/>
+                <label htmlFor="yes">star read</label>
+              </div>
               <div className="addBookPopOutFormBtns">
                 <button onClick={moveToPreviousQuestion}>back</button>
-                <button onClick={moveToNextQuestion}>add book to bookcase</button>
+                <button onClick={addBookToDataBase}>add book</button>
               </div>
             </div>
           </div>}
