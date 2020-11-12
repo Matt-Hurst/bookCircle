@@ -1,4 +1,15 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .logo {
   height: 100px;
   margin: 0.5rem 0 0 0.5rem;
+}
+
+.icon-standIn {
+  max-width: 140px;
+  max-height: 50px;
+  margin-top: 1.5rem;
 }

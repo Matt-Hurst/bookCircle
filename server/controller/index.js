@@ -112,3 +112,29 @@ exports.updateTargetCtrl = async (req, res) => {
     console.error('ERROR', error)
   }
 }
+
+exports.rejectFriendRequestCtrl = async (req, res) => {
+  try {
+    const {activityId, responderId, initiatorId} = req.body
+    // data { activityId = _id, responderId: 12312, initiatorId: 12321 }
+ 
+    // remove message from responder
+    const responder = await User.findByIdAndUpdate(responderId, {
+      $pull : { activityLog: {activityId: activityId} }
+    }, {new: true})
+    // remove responder id from initiator prending array
+    const initiator = await User.findByIdAndUpdate(initiatorId, {
+        $push : {
+          activityLog: {
+            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', activityId: 11}],
+            $position: 0 
+        },
+      },
+      $pull : { pendingFriends: responderId }
+    }, {new: true})
+    // add rejected friend request to activity log
+    res.send(initiator.activityLog)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
