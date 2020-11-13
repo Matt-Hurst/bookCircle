@@ -5,7 +5,7 @@ import './Search.scss'
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
 
 interface myProps {
-  username: string;
+  username: string | null;
 }
 
 interface bookClicked {
@@ -35,7 +35,7 @@ interface book {
 
 interface newBook {
   book: book;
-  user: string
+  user: string | null;
 }
 
 const Search = ({username}: myProps) => {

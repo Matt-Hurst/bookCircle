@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
+import { getUser } from './ApiService/serverApiService'
+import { User } from './Interfaces'
 import './App.scss';
 
 function App() {
-  const [userLoggedIn, setUserLoggedIn] = useState({loggedIn: false, name: 'Matt'})
+  const [userLoggedIn, setUserLoggedIn] = useState<User>()
 
-  useEffect(() => {
-    setUserLoggedIn({...userLoggedIn, loggedIn: true});
+  async function getUserData (name: string) {
+    const user: User = await getUser(name);
+    setUserLoggedIn(user);
+  }
+  
+  useEffect( () => {
+    getUserData('Matt')
   }, [])
 
   return (
     <div>
-    { userLoggedIn.loggedIn ? <AuthenticatedApp user={userLoggedIn.name}/> : <UnauthenticatedApp /> }
+    { userLoggedIn && <AuthenticatedApp user={userLoggedIn.name}/>}
+    { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );
 }

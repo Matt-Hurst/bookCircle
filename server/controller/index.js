@@ -6,6 +6,11 @@ exports.getCtrl = async (req,res) => { // TODO: remove - for testing purposes on
   res.send(result);
 };
 
+exports.getUserCtrl = async (req, res) => {
+  const user = await User.find({name: req.params.name})
+  res.send(user)
+}
+
 exports.createUserCtrl = async (req,res) => {
   try {
     const newUser = new User({

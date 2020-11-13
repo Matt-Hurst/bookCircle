@@ -3,7 +3,7 @@ import Search from './Pages/Search'
 import AuthHeader from './Components/AuthHeader'
 
 interface myProps {
-  user: string;
+  user: string | null;
 }
 
 const AuthenticatedApp = (props: myProps) => {
