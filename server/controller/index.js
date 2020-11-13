@@ -11,6 +11,12 @@ exports.getUserCtrl = async (req, res) => {
   res.send(user)
 }
 
+exports.getFriendsNameCtrl = async (req, res) => {
+  // const user = await User.find({name: 'Matt'}, 'friends') // returns { friends: [], _id: 1231}
+ const result = await User.findById(req.params.id, 'name')
+  res.send(result)
+}
+
 exports.createUserCtrl = async (req,res) => {
   try {
     const newUser = new User({

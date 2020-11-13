@@ -21,7 +21,8 @@ interface User {
   activityLog: Array<object | null>
 }
 
+
 export type {
   Book,
-  User
+  User,
 };

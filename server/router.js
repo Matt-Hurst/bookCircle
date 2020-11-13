@@ -8,11 +8,13 @@ const {
    updateTargetCtrl,
    rejectFriendRequestCtrl,
    removeActivityLogElementCtrl,
-   getUserCtrl
+   getUserCtrl,
+   getFriendsNameCtrl
    } = require('./controller')
 
 router.get('/', getCtrl)
 router.get('/getUser/:name', getUserCtrl)
+router.get('/getFriendsNames/:id', getFriendsNameCtrl)
 router.post('/createUser', createUserCtrl)
 router.post('/addBook', addBookCrtl)
 router.post('/addFriend', addFriendCtrl)

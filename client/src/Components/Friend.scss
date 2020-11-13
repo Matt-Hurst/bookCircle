@@ -1,0 +1,38 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.friendDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 2rem;
+}
+
+.friendIconAndNameDiv {
+  display: flex;
+  align-items: center;
+
+  .friendIcon {
+    height: 70px;
+    width: 70px;
+    color: $primary-dark;
+  }
+
+  h3 {
+    margin-left: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: $primary-dark;
+  }
+}
+
+.friendButton {
+  background-color: $primary-dark;
+  color: $background-color;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  height: 0%;
+}

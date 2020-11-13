@@ -1,0 +1,29 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.friendsDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;  
+}
+
+.friendsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $primary-dark;
+  font-weight: 300;
+  border-bottom: 5px solid $primary-dark;
+  margin: 1rem 2.2rem 2rem 2.2rem;
+
+  .searchH1 {
+    margin:0;
+  }
+}
+
+.addFriendIcon {
+  height: 40px;
+  width: 40px;
+}

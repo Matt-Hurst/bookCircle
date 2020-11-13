@@ -3,6 +3,7 @@ import React from 'react';
 import Search from './Pages/Search'
 import AuthHeader from './Components/AuthHeader'
 import Bookcase from './Pages/Bookcase'
+import Friends from './Pages/Friends'
 
 import { User } from './Interfaces'
 
@@ -13,11 +14,13 @@ interface myProps {
 
 const AuthenticatedApp = (props: myProps) => {
 
+
   return (
   <>
     <AuthHeader />
     {/* <Search user={props.user}/> */}
-    <Bookcase user={props.user} />
+    {/* <Bookcase user={props.user} /> */}
+    <Friends user={props.user} />
   </>
 
   )

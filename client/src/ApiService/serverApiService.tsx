@@ -9,6 +9,13 @@ async function getUser(name: string): Promise<User> {
   return user[0];
 }
 
+async function getFriendName(name: string): Promise<Object> {
+  const friendsName = await fetch(URL+'getFriendsNames/'+name)
+    .then(response => response.json())
+  return friendsName.name;
+}
+
 export {
-  getUser
+  getUser,
+  getFriendName
 }

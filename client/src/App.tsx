@@ -12,6 +12,7 @@ function App() {
     const user: User = await getUser(name);
     setUserLoggedIn(user);
   }
+
   
   useEffect( () => {
     getUserData('Matt')
