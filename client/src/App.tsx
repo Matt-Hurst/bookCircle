@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div>
-    { userLoggedIn && <AuthenticatedApp user={userLoggedIn.name}/>}
+    { userLoggedIn && <AuthenticatedApp user={userLoggedIn}/>}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );

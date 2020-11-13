@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import SearchResults from '../Components/SearchResults'
+import { User } from '../Interfaces'
 import './Search.scss'
 
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
 
 interface myProps {
-  username: string | null;
+  user: User;
 }
 
 interface bookClicked {
@@ -38,7 +39,7 @@ interface newBook {
   user: string | null;
 }
 
-const Search = ({username}: myProps) => {
+const Search = ({user}: myProps) => {
   const [search, setSearch] = useState('');
   const [placeholder, setPlaceholder] = useState('title'); 
   const [isSearch, setIsSearch] = useState(false);
@@ -145,7 +146,7 @@ const Search = ({username}: myProps) => {
         genre: bookClicked?.genre,
         star: userInput.star 
       },
-      user: username
+      user: user.name
     }
 
     await fetch('http://localhost:3001/addBook', {
