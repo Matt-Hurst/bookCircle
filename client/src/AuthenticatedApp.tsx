@@ -20,7 +20,7 @@ interface myProps {
 
 const AuthenticatedApp = (props: myProps) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
-  // create function that uses api function to get and set selectedFriend id
+
   async function getSelectedFriend(name: string) {
     const user: User = await getUser(name);
     setSelectedFriend(user);

@@ -21,8 +21,15 @@ interface User {
   activityLog: Array<object | null>
 }
 
+interface ActivityLog {
+  _id: string;
+  message: string;
+  type: string;
+  createdAt: string;
+}
 
 export type {
   Book,
   User,
+  ActivityLog
 };

@@ -13,6 +13,7 @@ function App() {
     setUserLoggedIn(user);
   }
 
+  // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
     getUserData('Matt')

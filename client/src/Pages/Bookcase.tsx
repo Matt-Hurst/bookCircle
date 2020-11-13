@@ -8,10 +8,6 @@ interface myProps {
   name?: string | null;
 }
 
-//TODO: add state to store bookshelf genre/category
-
-// TODO: make h2 = state
-
 const Bookcase = (props: myProps) => {
   const [selectedBooks, setSelectedBooks] = useState('all')
 
