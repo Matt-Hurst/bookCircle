@@ -44,9 +44,20 @@ const Bookcase = (props: myProps) => {
         })} />}
       
       <h2 className="bookCaseH2">Library Stats:</h2>
-      <p>{`Number of books in library: ${props.user.books ? props.user.books.length : null}`}</p>
-      <p>{`Number of books available to borrow: ${props.user.books ? props.user.books.filter(book => book.availableToBorrow).length : null}`}</p>
-      <p>{`Number of must reads: ${props.user.books ? props.user.books.filter(book => book.star).length : null}`}</p>
+      <div className="bookCaseStatsDiv">
+        <div className="statDiv">
+          <p>Number of books </p>
+          <p className="statDivNumber">{props.user.books ? props.user.books.length : null}</p>
+        </div>
+        <div className="statDiv">
+          <p>Available to borrow </p>
+          <p className="statDivNumber">{props.user.books ? props.user.books.filter(book => book.availableToBorrow).length : null}</p>
+        </div>
+        <div className="statDiv">
+          <p>Must reads </p>
+          <p className="statDivNumber">{props.user.books ? props.user.books.filter(book => book.star).length : null}</p>
+        </div>
+      </div>
     
     </div>
 
