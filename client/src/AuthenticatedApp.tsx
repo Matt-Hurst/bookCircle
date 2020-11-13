@@ -42,7 +42,7 @@ const AuthenticatedApp = (props: myProps) => {
             <Friends user={props.user}  getSelectedFriend={getSelectedFriend}/>
           </Route>
           <Route path="/friendsLibrary">
-            <Bookcase user={props.user} name={`Friends`} />
+            <Bookcase user={selectedFriend || props.user} name={`Friends`} /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" component={Search} />
           {/* <Route component={Error} /> */}
