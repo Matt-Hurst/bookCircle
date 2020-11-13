@@ -5,7 +5,7 @@ import './Bookcase.scss'
 
 interface myProps {
   user: User;
-  name?: string;
+  name?: string | null;
 }
 
 //TODO: add state to store bookshelf genre/category

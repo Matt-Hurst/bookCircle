@@ -15,7 +15,7 @@ function App() {
 
   
   useEffect( () => {
-    getUserData('Ed')
+    getUserData('Matt')
   }, [])
 
   return (
