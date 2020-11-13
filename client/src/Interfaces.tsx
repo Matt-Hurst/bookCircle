@@ -7,7 +7,8 @@ interface Book {
   review: string | undefined;
   availableToBorrow: boolean | undefined;
   genre: string | undefined;
-  star: boolean | undefined; 
+  star: boolean | undefined;
+  _id: string | undefined;
 }
 
 interface User {
