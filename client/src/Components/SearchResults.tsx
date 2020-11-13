@@ -37,7 +37,7 @@ const SearchResults = (props: myProps) => {
                   title: result.title,
                   authors: result.authors,
                   imageUrl: result.imageLinks.thumbnail,
-                  genre: result.categories[0]
+                  genre: result.categories ? result.categories[0] : undefined
                 }) 
               }}
               >add to bookcase</button>
