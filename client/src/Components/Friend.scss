@@ -35,4 +35,9 @@ $background-color: #F6E7D8;
   border-radius: 5px;
   padding: 0.5rem;
   height: 0%;
+
+  a {
+    text-decoration: none;
+    color: $background-color;
+  }
 }

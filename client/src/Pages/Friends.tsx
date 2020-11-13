@@ -7,9 +7,10 @@ import './Friends.scss'
 
 interface myProps {
   user: User;
+  getSelectedFriend: Function;
 }
 
-const Friends = ({user}: myProps) => {
+const Friends = ({user,  getSelectedFriend}: myProps) => {
 
   return (
     <>
@@ -19,7 +20,7 @@ const Friends = ({user}: myProps) => {
     </header>
       <div className="friendsDiv">
         {user && user.friends?.map(friend => {
-          return <Friend friendId={friend} />
+          return <Friend friendId={friend}  getSelectedFriend={getSelectedFriend} />
         })}
       </div>
     </>

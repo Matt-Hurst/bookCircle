@@ -8,6 +8,7 @@ import './BookShelf.scss'
 
 interface myProps {
   books: Array<Book> | null;
+  getSelectedFriend?: Function;
 }
 
 const BookShelf = (props: myProps) => {
