@@ -1,0 +1,26 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.BookDisplayDiv {
+  margin: 0 1rem;
+  position: relative;
+
+  .book {
+    height: 220px;
+    box-shadow:  5px 5px 5px  #f1dac3;
+  }
+  .star {
+    color: gold;
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    left: 2px;
+  }
+}
+
+.BookDisplayDiv:last-child {
+  padding-right: 1rem;
+}

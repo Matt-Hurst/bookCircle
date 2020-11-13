@@ -17,7 +17,7 @@ const AuthenticatedApp = (props: myProps) => {
   <>
     <AuthHeader />
     {/* <Search user={props.user}/> */}
-    <Bookcase user={props.user}/>
+    <Bookcase user={props.user} />
   </>
 
   )
