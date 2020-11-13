@@ -8,6 +8,7 @@ $background-color: #F6E7D8;
 
   .book {
     height: 220px;
+    width: 150px;
     box-shadow:  5px 5px 5px  #f1dac3;
   }
   .star {
@@ -23,4 +24,8 @@ $background-color: #F6E7D8;
 
 .BookDisplayDiv:last-child {
   padding-right: 1rem;
+}
+
+.BookDisplayDiv:first-child {
+  margin-left: 2.2rem;
 }
