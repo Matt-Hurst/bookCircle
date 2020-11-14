@@ -6,7 +6,8 @@ type MessageProps = {
   activity: ActivityLog,
   confirmFriend: Function,
   userId: string | null,
-  rejectFriendRequest: Function
+  rejectFriendRequest: Function,
+  confirmBookReq: Function
 }
 
 // TODO: conditional rendering based on type of activity - need to pass down following functions:
@@ -16,7 +17,7 @@ type MessageProps = {
 // TODO: style component
 
 
-const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId, rejectFriendRequest}) => {
+const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId, rejectFriendRequest, confirmBookReq}) => {
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const action = e.currentTarget.getAttribute('value');
@@ -30,11 +31,10 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
     } else if (activity.type === 'bookRequest') {
       if (action === 'accept') {
         console.log(action, 'accept')
-        // accept book request
+        confirmBookReq({...activity, userId: userId})
       }
       if (action === 'reject') {
         console.log(action, 'reject')
-        // reject book request
       }
     }
   }

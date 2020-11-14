@@ -57,10 +57,23 @@ async function requestBook(obj: BookRequest): Promise<User> {
   return result;
 }
 
+async function acceptBookRequest(activity: ActivityLog): Promise<Object> {
+  const result = await fetch(URL+'acceptBookRequest', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(activity)
+  })
+  .then(response => response.json())
+  return result;
+}
+
 export {
   getUser,
   getFriendName,
   acceptFriend,
   rejectFriend,
-  requestBook
+  requestBook,
+  acceptBookRequest
 }

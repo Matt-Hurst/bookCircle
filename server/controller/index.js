@@ -187,3 +187,29 @@ exports.requestBookCtrl = async (req, res) => {
     console.error('ERROR', error)
   }
 }
+
+exports.acceptBookRequestCtrl = async (req, res) => {
+  try {
+    const {createdAt, userId, senderId} = req.body
+    
+    const user = await User.findByIdAndUpdate(userId, {
+      $pull : { activityLog: {createdAt: createdAt} }
+    }, {new: true})
+   
+    await User.findByIdAndUpdate(senderId, {
+        $push : {
+          activityLog: {
+            $each: [{message: `${user.name} accepted your book request, get in touch now to organise collection!`, type: 'resolvedBookRequest', createdAt: Date.now()}],
+            $position: 0 
+        },
+      },
+    })
+    res.send(user)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
+exports.rejectBookRequestCtrl = async (req, res) => {
+
+}

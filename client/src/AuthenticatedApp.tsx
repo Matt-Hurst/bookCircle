@@ -17,10 +17,11 @@ import { User, Book } from './Interfaces'
 type AuthAppProps = {
   user: User,
   confirmFriend: Function,
-  rejectFriendRequest: Function
+  rejectFriendRequest: Function,
+  confirmBookReq: Function
 }
 
-const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend, rejectFriendRequest}) => {
+const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq}) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
   async function getSelectedFriend(name: string) {
@@ -46,7 +47,8 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend,
           <Route path="/" exact >
             <Dashboard user={user} 
             confirmFriend={confirmFriend} 
-            rejectFriendRequest={rejectFriendRequest} 
+            rejectFriendRequest={rejectFriendRequest}
+            confirmBookReq={confirmBookReq} 
             />
           </Route>
           <Route path="/yourLibrary" >

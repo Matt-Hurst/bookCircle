@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
-import { getUser, acceptFriend, rejectFriend } from './ApiService/serverApiService'
+import { getUser, acceptFriend, rejectFriend, acceptBookRequest } from './ApiService/serverApiService'
 import { ActivityLog, User } from './Interfaces'
 import './App.scss';
 
@@ -29,6 +29,11 @@ function App() {
     const result: any = await rejectFriend(activity);
     setUserLoggedIn(result)
   }
+  // function to confirm book request
+  const confirmBookReq = async (activity: ActivityLog) => {
+    const result: any = await acceptBookRequest(activity);
+    setUserLoggedIn(result)
+  }
 
   return (
     <div>
@@ -36,7 +41,9 @@ function App() {
     <AuthenticatedApp 
     user={userLoggedIn} 
     confirmFriend={confirmFriend} 
-    rejectFriendRequest={rejectFriendRequest} />}
+    rejectFriendRequest={rejectFriendRequest} 
+    confirmBookReq={confirmBookReq}
+    />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );

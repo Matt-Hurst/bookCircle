@@ -10,7 +10,9 @@ const {
    removeActivityLogElementCtrl,
    getUserCtrl,
    getFriendsNameCtrl,
-   requestBookCtrl
+   requestBookCtrl,
+   acceptBookRequestCtrl,
+   rejectBookRequestCtrl
    } = require('./controller')
 
 router.get('/', getCtrl)
@@ -24,6 +26,8 @@ router.delete('/rejectFriendRequest', rejectFriendRequestCtrl)
 router.put('/updateTarget', updateTargetCtrl)
 router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
 router.post('/requestBook', requestBookCtrl)
+router.post('/acceptBookRequest', acceptBookRequestCtrl)
+router.delete('/rejectBookRequest', rejectBookRequestCtrl)
 
 // ROUTES REQUIRED TODO:
 
