@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useState } from "react"
 import { BsFillPersonFill } from "react-icons/bs";
 import './Friend.scss'
 
@@ -14,9 +14,11 @@ type FriendSearchResultProps = {
 }
 
 const FriendSearchResult: FunctionComponent<FriendSearchResultProps> = ({users, handleAddFriend, user}) => {
+  const [addFriendClicked, setAddFriendClicked] = useState(false)
 
   const handleClick = (id: string) => {
     handleAddFriend({friend_id: id, user: user})
+    setAddFriendClicked(true)
   }
 
   return (
@@ -28,8 +30,8 @@ const FriendSearchResult: FunctionComponent<FriendSearchResultProps> = ({users, 
               <BsFillPersonFill className="friendIcon" />
               <h3>{user.name}</h3>
             </div>
-              <button className="friendButton" onClick={() => handleClick(user._id)} >
-                add friend
+              <button className={addFriendClicked ? 'clickedFriendBtn' : "friendButton"} onClick={() => handleClick(user._id)} >
+              {addFriendClicked ? 'request sent' : "add friend"}
               </button>    
           </div>
         )

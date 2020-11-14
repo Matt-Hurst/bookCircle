@@ -10,7 +10,7 @@ import {
   deleteMessage,
   addFriend 
   } from './ApiService/serverApiService'
-import { ActivityLog, User, AddFriend } from './Interfaces'
+import { ActivityLog, User, AddFriend, BookRequest } from './Interfaces'
 import './App.scss';
 
 function App() {
@@ -49,8 +49,8 @@ function App() {
     setUserLoggedIn(result)
   }
   // function to reject book request
-  const rejectBookReq = async (activity: ActivityLog) => {
-    const result: any = await rejectBookRequest(activity);
+  const rejectBookReq = async (obj: BookRequest) => {
+    const result: any = await rejectBookRequest(obj);
     setUserLoggedIn(result)
   }
 

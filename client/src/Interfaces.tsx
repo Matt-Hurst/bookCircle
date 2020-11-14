@@ -29,15 +29,21 @@ interface ActivityLog {
   createdAt: string;
 }
 
-type AddFriend = {
-  user: string,
-  friend_id: string
+interface AddFriend  {
+  user: string;
+  friend_id: string;
 }
 
+interface BookRequest  {
+  user: User;
+  book: Book;
+  friendId: any;
+}
 
 export type {
   Book,
   User,
   ActivityLog,
-  AddFriend
+  AddFriend,
+  BookRequest
 };

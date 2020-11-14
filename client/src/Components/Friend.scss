@@ -41,3 +41,13 @@ $background-color: #F6E7D8;
     color: $background-color;
   }
 }
+
+.clickedFriendBtn {
+  background-color: grey;
+  color: $background-color;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  height: 0%;
+}

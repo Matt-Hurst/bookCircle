@@ -129,7 +129,7 @@ exports.rejectFriendRequestCtrl = async (req, res) => {
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true})
     // remove responder id from initiator prending array
-    const initiator = await User.findByIdAndUpdate(senderId, {
+    await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
             $each: [{message: `${responder.name} rejected your friend request.`, type: 'resolved', createdAt: Date.now()}],
@@ -185,7 +185,7 @@ exports.requestBookCtrl = async (req, res) => {
       //push activity log type bookRequest to owner of book
       $push : {
         activityLog: {
-          $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.title, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
+          $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.id, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
           $position: 0 
         },
       },
@@ -221,13 +221,20 @@ exports.acceptBookRequestCtrl = async (req, res) => {
 }
 
 exports.rejectBookRequestCtrl = async (req, res) => {
+  console.log(req.body, 'ASIJFHAIUHFDASIJFH')
   try {
     const {createdAt, userId, senderId, book} = req.body
     
+    await User.updateOne({
+      _id: userId, books: { $elemMatch: { id: book}}
+    },
+    { $set: {"books.$.availableToBorrow" : true }}
+    )
     const user = await User.findByIdAndUpdate(userId, {
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true})
    
+
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
