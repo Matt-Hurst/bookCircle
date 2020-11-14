@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import BookShelf from '../Components/BookShelf';
-import { User } from '../Interfaces'
+import FriendsBook from '../Components/FriendsBook'
+import { User, Book } from '../Interfaces'
 import './Bookcase.scss'
 
-interface myProps {
+type BookCaseProps = {
   user: User;
   name?: string | null;
 }
 
-const Bookcase = (props: myProps) => {
+const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
   const [selectedBooks, setSelectedBooks] = useState('all')
+  const [clickedBook, setClickedBook] = useState<Book>()
+  // POP OUT to interact with individual books
 
+  
   function handleChange (e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedBooks(e.target.value)
   }
+  
+  // state to save selected book => pass that state to FriendsBook component
+  function handleFriendsBookClicked(book:Book) {
+    console.log('CLICKED BOOK FRIEND LIBRARY')
+    setClickedBook(book)
+  }
 
+  function handleUserBookClick(book:Book) {
+    console.log('CLICKED BOOK USER LIBRARY')
+    setClickedBook(book)
+  }
+  
   return (
     <div className="bookCase">
+      {clickedBook && <FriendsBook  clickedBook={clickedBook}/>}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
       {/* <h2 className="bookCaseH2">{selectedBooks}</h2>  */}
       <select onChange={handleChange} id="filterBooks">
@@ -30,7 +46,8 @@ const Bookcase = (props: myProps) => {
         <option value="politics and history">Politics and History</option>
       </select> 
 
-      {props.user.books && <BookShelf 
+      {props.user.books && <BookShelf
+      handleBookClicked={props.name ? handleFriendsBookClicked : handleUserBookClick} 
       books={selectedBooks === 'all' ? 
       props.user.books : 
       props.user.books?.filter(book => {

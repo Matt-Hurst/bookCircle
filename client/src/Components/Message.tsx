@@ -10,7 +10,6 @@ type MessageProps = {
 }
 
 // TODO: conditional rendering based on type of activity - need to pass down following functions:
-// // reject friend request and delete activity log and send activityLog to reject
 // // accept book borrow request, send message to requester, and delete activityLog
 // // reject book borrow request, send message to requester, and delete activityLog
 

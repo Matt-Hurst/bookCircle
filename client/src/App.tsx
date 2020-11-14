@@ -32,7 +32,11 @@ function App() {
 
   return (
     <div>
-    { userLoggedIn && <AuthenticatedApp user={userLoggedIn} confirmFriend={confirmFriend} rejectFriendRequest={rejectFriendRequest} />}
+    { userLoggedIn && 
+    <AuthenticatedApp 
+    user={userLoggedIn} 
+    confirmFriend={confirmFriend} 
+    rejectFriendRequest={rejectFriendRequest} />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );

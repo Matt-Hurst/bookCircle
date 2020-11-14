@@ -1,21 +1,19 @@
-import React from 'react';
-
+import React, { FunctionComponent } from 'react';
 import BookDisplay from './Book';
-
 import { Book } from '../Interfaces';
-
 import './BookShelf.scss'
 
-interface myProps {
-  books: Array<Book> | null;
-  getSelectedFriend?: Function;
+type BookShelfProps = {
+  books: Array<Book> | null,
+  getSelectedFriend?: Function,
+  handleBookClicked: Function
 }
 
-const BookShelf = (props: myProps) => {
+const BookShelf: FunctionComponent<BookShelfProps> = ({books, getSelectedFriend, handleBookClicked}) => {
   return (
     <>
     <div className="bookShelf">
-      {props.books && props.books.map(book => <BookDisplay key={book._id} book={book} />
+      {books && books.map(book => <BookDisplay key={book._id} book={book} handleBookClicked={handleBookClicked} />
       )}
     </div>
     </>

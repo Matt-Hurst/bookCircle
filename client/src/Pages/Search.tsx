@@ -87,7 +87,6 @@ const Search = ({user}: myProps) => {
 
   const handleBookClick = (newBook: any): void => {
     setBookClicked(newBook)
-    console.log('NEWBOOK', newBook)
   }
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, word: string) => {
