@@ -29,8 +29,15 @@ interface ActivityLog {
   createdAt: string;
 }
 
+type AddFriend = {
+  user: string,
+  friend_id: string
+}
+
+
 export type {
   Book,
   User,
-  ActivityLog
+  ActivityLog,
+  AddFriend
 };

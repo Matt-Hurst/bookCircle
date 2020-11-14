@@ -7,9 +7,10 @@ import {
   rejectFriend, 
   acceptBookRequest,
   rejectBookRequest,
-  deleteMessage 
+  deleteMessage,
+  addFriend 
   } from './ApiService/serverApiService'
-import { ActivityLog, User } from './Interfaces'
+import { ActivityLog, User, AddFriend } from './Interfaces'
 import './App.scss';
 
 function App() {
@@ -25,6 +26,12 @@ function App() {
   useEffect( () => {
     getUserData('Mo')
   }, [])
+
+  // function to add friend
+  const handleAddFriend = async (obj: AddFriend) => {
+    const result: any = await addFriend(obj);
+    setUserLoggedIn(result)
+  }
 
   // function to confirm friend
   const confirmFriend = async (activity: ActivityLog) => {
@@ -63,6 +70,7 @@ function App() {
     confirmBookReq={confirmBookReq}
     rejectBookReq={rejectBookReq}
     removeMessage={removeMessage}
+    handleAddFriend={handleAddFriend}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>

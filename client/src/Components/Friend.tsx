@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"; 
 import { BsFillPersonFill } from "react-icons/bs";
 import {getFriendName} from '../ApiService/serverApiService'
 import './Friend.scss'

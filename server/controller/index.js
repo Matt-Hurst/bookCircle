@@ -58,6 +58,16 @@ exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publi
   }
 }
 
+exports.searchUsersCtrl = async (req, res) => {
+  const { name } = req.params
+  try {
+    result = await User.find({name: name}, 'name _id').exec() // TODO: make regex so get all names similar
+    res.send(result)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
 exports.addFriendCtrl = async (req, res) => { 
   try {
     const query = {name: req.body.user};
@@ -76,7 +86,7 @@ exports.addFriendCtrl = async (req, res) => {
           $position: 0
      }}  
     }, {new: true})
-    res.status(201).send(user.pendingFriends)
+    res.status(201).send(user)
   } catch (error) {
     console.error('ERROR', error)
   }

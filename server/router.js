@@ -12,19 +12,24 @@ const {
    getFriendsNameCtrl,
    requestBookCtrl,
    acceptBookRequestCtrl,
-   rejectBookRequestCtrl
+   rejectBookRequestCtrl,
+   searchUsersCtrl
    } = require('./controller')
 
 router.get('/', getCtrl)
+// USER ROUTES
 router.get('/getUser/:name', getUserCtrl)
-router.get('/getFriendsNames/:id', getFriendsNameCtrl)
 router.post('/createUser', createUserCtrl)
-router.post('/addBook', addBookCrtl)
+router.put('/updateTarget', updateTargetCtrl) //TODO: Can this be deleted??
+router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
+//FRIEND ROUTES
+router.get('/searchFriend/:name', searchUsersCtrl)
 router.post('/addFriend', addFriendCtrl)
 router.post('/confirmFriend', confirmFriendCtrl)
 router.delete('/rejectFriendRequest', rejectFriendRequestCtrl)
-router.put('/updateTarget', updateTargetCtrl)
-router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
+router.get('/getFriendsNames/:id', getFriendsNameCtrl)
+//BOOK ROUTES
+router.post('/addBook', addBookCrtl)
 router.post('/requestBook', requestBookCtrl)
 router.post('/acceptBookRequest', acceptBookRequestCtrl)
 router.post('/rejectBookRequest', rejectBookRequestCtrl)

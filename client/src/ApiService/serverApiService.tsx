@@ -1,4 +1,4 @@
-import { User, ActivityLog, Book } from '../Interfaces'
+import { User, ActivityLog, Book, AddFriend } from '../Interfaces'
 
 const URL = 'http://localhost:3001/'
 
@@ -13,6 +13,24 @@ async function getFriendName(name: string): Promise<Object> {
   const friendsName = await fetch(URL+'getFriendsNames/'+name)
     .then(response => response.json())
   return friendsName.name;
+}
+
+async function searchFriend(name: string): Promise<Object> {
+  const friend = await fetch(URL+'searchFriend/'+name)
+    .then(response => response.json())
+  return friend;
+}
+
+async function addFriend(obj: AddFriend): Promise<Object> {
+  const result = await fetch(URL+'addFriend', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(obj)
+  })
+  .then(response => response.json())
+  return result;
 }
 
 async function acceptFriend(activity: ActivityLog): Promise<Object> {
@@ -101,5 +119,7 @@ export {
   requestBook,
   acceptBookRequest,
   rejectBookRequest,
-  deleteMessage
+  deleteMessage,
+  searchFriend,
+  addFriend
 }

@@ -9,6 +9,7 @@ import AuthHeader from './Components/AuthHeader'
 import Bookcase from './Pages/Bookcase'
 import Friends from './Pages/Friends'
 import Dashboard from './Pages/Dashboard'
+import FriendSearch from './Pages/FriendSearch'
 import { getUser, requestBook } from './ApiService/serverApiService'
 
 import { User, Book } from './Interfaces'
@@ -20,10 +21,11 @@ type AuthAppProps = {
   rejectFriendRequest: Function,
   confirmBookReq: Function,
   rejectBookReq: Function,
-  removeMessage: Function
+  removeMessage: Function,
+  handleAddFriend: Function
 }
 
-const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
+const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage, handleAddFriend}) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
   async function getSelectedFriend(name: string) {
@@ -60,6 +62,9 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend,
           </Route>
           <Route path="/friends">
             <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
+          </Route>
+          <Route path="/friendSearch">
+            <FriendSearch handleAddFriend={handleAddFriend} user={user.name}/>
           </Route>
           <Route path="/friendsLibrary">
             <Bookcase username={user.name} 
