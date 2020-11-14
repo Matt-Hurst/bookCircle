@@ -1,5 +1,6 @@
 const { init } = require('../model');
 const User = require('../model');
+const { v4: uuidv4 } = require('uuid');
 
 exports.getCtrl = async (req,res) => { // TODO: remove - for testing purposes only
   const result = await User.find();
@@ -38,7 +39,7 @@ exports.createUserCtrl = async (req,res) => {
 exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publishing
   try {
     // will receive book information on req.body
-    const newBook = req.body.book;
+    const newBook = {...req.body.book, id:uuidv4()};
     // find user by _id or name
     const query = {name: req.body.user};
     const options = { new: true };
@@ -154,6 +155,34 @@ exports.removeActivityLogElementCtrl = async (req, res) => {
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true});
     res.send(updatedUser)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
+exports.requestBookCtrl = async (req, res) => {
+  // { user = name, book, friendId } => date to receive should look something like this..
+  const { user, book, friendId } = req.body
+  try {
+    //find and update book owner by Id
+    await User.updateOne({
+      _id: friendId, books: { $elemMatch: { id: book.id}}
+    },
+    { $set: {"books.$.availableToBorrow" : false }}
+    )
+    
+    const result = await User.findByIdAndUpdate(friendId, {
+      //push activity log type bookRequest to owner of book
+      $push : {
+        activityLog: {
+          $each: [{message: `${user.name} wants to borrow ${book.title}.`, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
+          $position: 0 
+        },
+      },
+    }, {new: true});
+    // //set availableToBorrow to false
+  
+    res.send(result)
   } catch (error) {
     console.error('ERROR', error)
   }

@@ -16,7 +16,7 @@ function App() {
   // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
-    getUserData('Matt')
+    getUserData('Brett')
   }, [])
 
   // function to confirm friend

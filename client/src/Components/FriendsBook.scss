@@ -21,7 +21,9 @@ $background-color: #F6E7D8;
   border-radius: 10px;
   background-color: $background-color;
   max-height: 40vh;
+  min-height: 40vh;
   min-width: 90vw;
+  max-width: 90vw;
   align-items: center;
 
 }
@@ -51,6 +53,7 @@ $background-color: #F6E7D8;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-right: 0.5rem;
 
   h3 {
     font-weight: 300;
@@ -73,5 +76,12 @@ $background-color: #F6E7D8;
   font-size: 1.2rem;
   border-radius: 10px;
   border:none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
+}
+
+.requestedBookBtn {
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border:none;
+  padding: 0.5rem;
 }

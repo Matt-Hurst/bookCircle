@@ -20,19 +20,38 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const action = e.currentTarget.getAttribute('value');
-    if (action === 'accept') {
-      confirmFriend({...activity, userId: userId})
-    }
-    if (action === 'reject') {
-      rejectFriendRequest({...activity, userId: userId})
+    if (activity.type === 'friendRequest') {
+      if (action === 'accept') {
+        confirmFriend({...activity, userId: userId})
+      }
+      if (action === 'reject') {
+        rejectFriendRequest({...activity, userId: userId})
+      }
+    } else if (activity.type === 'bookRequest') {
+      if (action === 'accept') {
+        console.log(action, 'accept')
+        // accept book request
+      }
+      if (action === 'reject') {
+        console.log(action, 'reject')
+        // reject book request
+      }
     }
   }
 
   return (
     <div className="messageContainer">
       <p>{activity.message}</p>
-      {activity.type === 'friendRequest' && <button value="accept" onClick={handleClick}>accept</button>}
-      {activity.type === 'friendRequest' && <button value="reject" onClick={handleClick}>reject</button>}
+      {activity.type === 'friendRequest' && 
+        <div>
+          <button value="accept" onClick={handleClick}>accept</button>
+          <button value="reject" onClick={handleClick}>reject</button>
+        </div>}
+      {activity.type === 'bookRequest' && 
+        <div>
+          <button value="accept" onClick={handleClick}>accept</button>
+          <button value="reject" onClick={handleClick}>reject</button>
+        </div>}
     </div>
   )
 }

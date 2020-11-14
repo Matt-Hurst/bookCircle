@@ -5,8 +5,10 @@ import { User, Book } from '../Interfaces'
 import './Bookcase.scss'
 
 type BookCaseProps = {
-  user: User;
-  name?: string | null;
+  user: User,
+  name?: string | null,
+  username: string | null,
+  handleBookRequest: Function
 }
 
 const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
@@ -30,9 +32,10 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
     setClickedBook(book)
   }
   
+  
   return (
     <div className="bookCase">
-      {clickedBook && <FriendsBook  clickedBook={clickedBook}/>}
+      {clickedBook && <FriendsBook handleBookRequest={props.handleBookRequest} clickedBook={clickedBook} />}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
       {/* <h2 className="bookCaseH2">{selectedBooks}</h2>  */}
       <select onChange={handleChange} id="filterBooks">

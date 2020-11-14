@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from 'react'
+import React, { useState, FunctionComponent, useEffect } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,9 +9,9 @@ import AuthHeader from './Components/AuthHeader'
 import Bookcase from './Pages/Bookcase'
 import Friends from './Pages/Friends'
 import Dashboard from './Pages/Dashboard'
-import { getUser } from './ApiService/serverApiService'
+import { getUser, requestBook } from './ApiService/serverApiService'
 
-import { User } from './Interfaces'
+import { User, Book } from './Interfaces'
 
 
 type AuthAppProps = {
@@ -29,22 +29,38 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend,
     console.log(user)
   }
 
+  async function handleBookRequest(book: Book) {
+    const result: User = await requestBook({
+      user: user,
+      book: book,
+      friendId: selectedFriend ? selectedFriend._id : undefined
+    })
+    setSelectedFriend(result)
+  }
+
   return (
     <Router>    
       <main>
         <AuthHeader />  
         <Switch>
           <Route path="/" exact >
-            <Dashboard user={user} confirmFriend={confirmFriend} rejectFriendRequest={rejectFriendRequest} />
+            <Dashboard user={user} 
+            confirmFriend={confirmFriend} 
+            rejectFriendRequest={rejectFriendRequest} 
+            />
           </Route>
           <Route path="/yourLibrary" >
-            <Bookcase user={user}/>
+            <Bookcase username={user.name} user={user} handleBookRequest={handleBookRequest}/>
           </Route>
           <Route path="/friends">
             <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
           </Route>
           <Route path="/friendsLibrary">
-            <Bookcase user={selectedFriend || user} name={selectedFriend ? selectedFriend.name : null} /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
+            <Bookcase username={user.name} 
+            user={selectedFriend || user} 
+            name={selectedFriend ? selectedFriend.name : null} 
+            handleBookRequest={handleBookRequest}
+            /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >
             <Search user={user} />

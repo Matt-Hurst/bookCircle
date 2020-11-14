@@ -1,4 +1,4 @@
-import { User, ActivityLog } from '../Interfaces'
+import { User, ActivityLog, Book } from '../Interfaces'
 
 const URL = 'http://localhost:3001/'
 
@@ -39,9 +39,28 @@ async function rejectFriend(activity: ActivityLog): Promise<Object> {
   return result;
 }
 
+type BookRequest = {
+  user: User,
+  book: Book,
+  friendId: any
+}
+
+async function requestBook(obj: BookRequest): Promise<User> {
+  const result = await fetch(URL+'requestBook', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(obj)
+  })
+  .then(response => response.json())
+  return result;
+}
+
 export {
   getUser,
   getFriendName,
   acceptFriend,
-  rejectFriend
+  rejectFriend,
+  requestBook
 }
