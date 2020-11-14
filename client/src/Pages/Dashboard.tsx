@@ -15,10 +15,11 @@ type DashboardProps = {
   user: User,
   confirmFriend: Function,
   rejectFriendRequest: Function,
-  confirmBookReq: Function
+  confirmBookReq: Function,
+  rejectBookReq: Function
 }
 
-const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq}) => {
+const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq}) => {
   
   // function to look through each book, if book year === current year, add to count
   const userId = user._id
@@ -33,6 +34,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
       userId={userId} 
       rejectFriendRequest={rejectFriendRequest}
       confirmBookReq={confirmBookReq}
+      rejectBookReq={rejectBookReq}
       />
     })}
     <h1 className='dashboardHeader'>Goal progress:</h1>

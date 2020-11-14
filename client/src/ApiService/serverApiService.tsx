@@ -29,7 +29,7 @@ async function acceptFriend(activity: ActivityLog): Promise<Object> {
 
 async function rejectFriend(activity: ActivityLog): Promise<Object> {
   const result = await fetch(URL+'rejectFriendRequest', {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -69,11 +69,24 @@ async function acceptBookRequest(activity: ActivityLog): Promise<Object> {
   return result;
 }
 
+async function rejectBookRequest(activity: ActivityLog): Promise<Object> {
+  const result = await fetch(URL+'rejectBookRequest', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(activity)
+  })
+  .then(response => response.json())
+  return result;
+}
+
 export {
   getUser,
   getFriendName,
   acceptFriend,
   rejectFriend,
   requestBook,
-  acceptBookRequest
+  acceptBookRequest,
+  rejectBookRequest
 }

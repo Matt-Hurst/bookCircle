@@ -27,7 +27,7 @@ router.put('/updateTarget', updateTargetCtrl)
 router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
 router.post('/requestBook', requestBookCtrl)
 router.post('/acceptBookRequest', acceptBookRequestCtrl)
-router.delete('/rejectBookRequest', rejectBookRequestCtrl)
+router.post('/rejectBookRequest', rejectBookRequestCtrl)
 
 // ROUTES REQUIRED TODO:
 

@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const { stringify } = require('uuid');
 
 const activityLogSchema = new mongoose.Schema({
   message: String,
   type: String,
   senderId: {type: mongoose.Schema.Types.ObjectId},
   createdAt: Date,
+  book: String,
   activityId: Number
 })
 

@@ -175,7 +175,7 @@ exports.requestBookCtrl = async (req, res) => {
       //push activity log type bookRequest to owner of book
       $push : {
         activityLog: {
-          $each: [{message: `${user.name} wants to borrow ${book.title}.`, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
+          $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.title, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
           $position: 0 
         },
       },
@@ -190,7 +190,7 @@ exports.requestBookCtrl = async (req, res) => {
 
 exports.acceptBookRequestCtrl = async (req, res) => {
   try {
-    const {createdAt, userId, senderId} = req.body
+    const {createdAt, userId, senderId, book} = req.body
     
     const user = await User.findByIdAndUpdate(userId, {
       $pull : { activityLog: {createdAt: createdAt} }
@@ -199,7 +199,7 @@ exports.acceptBookRequestCtrl = async (req, res) => {
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${user.name} accepted your book request, get in touch now to organise collection!`, type: 'resolvedBookRequest', createdAt: Date.now()}],
+            $each: [{message: `${user.name} accepted your request to borrow ${book}, get in touch now to organise collection!`, type: 'resolvedBookRequest', createdAt: Date.now()}],
             $position: 0 
         },
       },
@@ -211,5 +211,23 @@ exports.acceptBookRequestCtrl = async (req, res) => {
 }
 
 exports.rejectBookRequestCtrl = async (req, res) => {
-
+  try {
+    const {createdAt, userId, senderId, book} = req.body
+    
+    const user = await User.findByIdAndUpdate(userId, {
+      $pull : { activityLog: {createdAt: createdAt} }
+    }, {new: true})
+   
+    await User.findByIdAndUpdate(senderId, {
+        $push : {
+          activityLog: {
+            $each: [{message: `${user.name} rejected your request to borrow ${book}.`, type: 'resolvedBookRequest', createdAt: Date.now()}],
+            $position: 0 
+        },
+      },
+    })
+    res.send(user)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
 }
