@@ -61,22 +61,21 @@ exports.addFriendCtrl = async (req, res) => {
   try {
     const query = {name: req.body.user};
     const options = { new: true };
-    // need to push to front of books array in database
-    await User.findOneAndUpdate(query, { 
+    const user = await User.findOneAndUpdate(query, { 
       $push: { 
         pendingFriends: req.body.friend_id  
     }}, options);
 
     // needs to add message to person that user has attempted to contact
     // add message to the front of their activity log array
-    const result = await User.findOneAndUpdate({_id: req.body.friend_id}, {
+    await User.findOneAndUpdate({_id: req.body.friend_id}, {
       $push: { 
         activityLog: {
-          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: req.body.name, createdAt: Date.now()}],
+          $each: [{message: `${req.body.user} wants to add you as a friend.`, type: 'friendRequest', senderId: user._id, createdAt: Date.now()}],
           $position: 0
      }}  
     }, {new: true})
-    res.status(201).send(result)
+    res.status(201).send(user.pendingFriends)
   } catch (error) {
     console.error('ERROR', error)
   }
@@ -84,23 +83,23 @@ exports.addFriendCtrl = async (req, res) => {
 
 exports.confirmFriendCtrl = async (req, res) => { 
   try {
-    // { initiatorId: _id, responderId: _id }
-    const { initiatorId, responderId, createdAt } = req.body;
+    // { initiatorId: _id, responderId: _id, createdat }
+    const { senderId, userId, createdAt } = req.body;
   
-    const responder = await User.findByIdAndUpdate(responderId, {
-      $push : { friends: initiatorId },
+    const responder = await User.findByIdAndUpdate(userId, {
+      $push : { friends: senderId },
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true, safe: true});  
 
-    await User.findByIdAndUpdate(initiatorId, {
+    await User.findByIdAndUpdate(senderId, {
       $push : { 
-        friends: responderId,
+        friends: userId,
         activityLog: {
           $each: [{message: `${responder.name} accepted your friend request.`, type: 'friendAdded', createdAt: Date.now()}],
           $position: 0
      }
       },
-      $pull : { pendingFriends: responderId }
+      $pull : { pendingFriends: userId }
     }, {new: true})
 
     res.send(responder)

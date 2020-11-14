@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
-import { getUser } from './ApiService/serverApiService'
-import { User } from './Interfaces'
+import { getUser, acceptFriend } from './ApiService/serverApiService'
+import { ActivityLog, User } from './Interfaces'
 import './App.scss';
 
 function App() {
@@ -19,9 +19,15 @@ function App() {
     getUserData('Matt')
   }, [])
 
+  // function to confirm friend
+  const confirmFriend = async (activity: ActivityLog) => {
+    const result: any = await acceptFriend(activity);
+    setUserLoggedIn(result)
+  }
+
   return (
     <div>
-    { userLoggedIn && <AuthenticatedApp user={userLoggedIn}/>}
+    { userLoggedIn && <AuthenticatedApp user={userLoggedIn} confirmFriend={confirmFriend} />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );

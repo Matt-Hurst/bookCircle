@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, FunctionComponent } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,11 +14,12 @@ import { getUser } from './ApiService/serverApiService'
 import { User } from './Interfaces'
 
 
-interface myProps {
-  user: User;
+type AuthAppProps = {
+  user: User,
+  confirmFriend: Function,
 }
 
-const AuthenticatedApp = (props: myProps) => {
+const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend}) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
   async function getSelectedFriend(name: string) {
@@ -33,19 +34,19 @@ const AuthenticatedApp = (props: myProps) => {
         <AuthHeader />  
         <Switch>
           <Route path="/" exact >
-            <Dashboard user={props.user} />
+            <Dashboard user={user} confirmFriend={confirmFriend} />
           </Route>
           <Route path="/yourLibrary" >
-            <Bookcase user={props.user}/>
+            <Bookcase user={user}/>
           </Route>
           <Route path="/friends">
-            <Friends user={props.user}  getSelectedFriend={getSelectedFriend}/>
+            <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
           </Route>
           <Route path="/friendsLibrary">
-            <Bookcase user={selectedFriend || props.user} name={selectedFriend ? selectedFriend.name : null} /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
+            <Bookcase user={selectedFriend || user} name={selectedFriend ? selectedFriend.name : null} /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >
-            <Search user={props.user} />
+            <Search user={user} />
           </Route>
         </Switch>
       </main>

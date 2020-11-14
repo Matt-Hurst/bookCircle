@@ -3,7 +3,9 @@ import { ActivityLog } from '../Interfaces'
 import './Message.scss'
 
 type MessageProps = {
-  activity: ActivityLog
+  activity: ActivityLog,
+  confirmFriend: Function,
+  userId: string | null
 }
 
 // TODO: conditional rendering based on type of activity - need to pass down following functions:
@@ -14,10 +16,21 @@ type MessageProps = {
 
 // TODO: style component
 
-const Message: FunctionComponent<MessageProps> = ({activity}) => {
+
+const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId}) => {
+  
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const action = e.currentTarget.getAttribute('value');
+    if (action === 'accept') {
+      console.log(activity)
+      confirmFriend({...activity, userId: userId})
+    }
+  }
+
   return (
     <div className="messageContainer">
       <p>{activity.message}</p>
+      {activity.type === 'friendRequest' && <button value="accept" onClick={handleClick}>accept</button>}
     </div>
   )
 }

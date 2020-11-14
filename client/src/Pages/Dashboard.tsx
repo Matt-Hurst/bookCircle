@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import Message from "../Components/Message"
 import { User } from '../Interfaces'
 import './Dashboard.scss'
@@ -11,18 +11,20 @@ import './Dashboard.scss'
 => display book shelf showing all books users friends have available to borrow
 */
 
-interface myProps {
-  user: User;
+type DashboardProps = {
+  user: User,
+  confirmFriend: Function
 }
 
-const Dashboard = ({user}: myProps) => {
+const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend}) => {
   
   // function to look through each book, if book year === current year, add to count
-  
+  const userId = user._id
+
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
-    {user.activityLog.map((activity:any) => <Message activity={activity} />)}
+    {user.activityLog.map((activity:any) => <Message activity={activity} confirmFriend={confirmFriend} userId={userId} />)}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <h1 className='dashboardHeader'>Friends books available to borrow:</h1>
 

@@ -25,6 +25,7 @@ interface ActivityLog {
   _id: string;
   message: string;
   type: string;
+  senderId: string;
   createdAt: string;
 }
 
