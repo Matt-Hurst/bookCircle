@@ -8,7 +8,8 @@ type MessageProps = {
   userId: string | null,
   rejectFriendRequest: Function,
   confirmBookReq: Function,
-  rejectBookReq: Function
+  rejectBookReq: Function,
+  removeMessage: Function
 }
 
 // TODO: conditional rendering based on type of activity - need to pass down following functions:
@@ -18,7 +19,7 @@ type MessageProps = {
 // TODO: style component
 
 
-const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId, rejectFriendRequest, confirmBookReq, rejectBookReq}) => {
+const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const action = e.currentTarget.getAttribute('value');
@@ -34,6 +35,8 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
       }else if (action === 'reject') {
         rejectBookReq({...activity, userId: userId})
       }
+    } else if (activity.type === 'resolved') {
+        removeMessage({...activity, userId: userId})
     }
   }
 
@@ -49,6 +52,10 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
         <div>
           <button value="accept" onClick={handleClick}>accept</button>
           <button value="reject" onClick={handleClick}>reject</button>
+        </div>}
+      {activity.type === 'resolved' && 
+        <div>
+          <button onClick={handleClick}>ok</button>
         </div>}
     </div>
   )

@@ -96,7 +96,7 @@ exports.confirmFriendCtrl = async (req, res) => {
       $push : { 
         friends: userId,
         activityLog: {
-          $each: [{message: `${responder.name} accepted your friend request.`, type: 'friendAdded', createdAt: Date.now()}],
+          $each: [{message: `${responder.name} accepted your friend request.`, type: 'resolved', createdAt: Date.now()}],
           $position: 0
      }
       },
@@ -122,7 +122,7 @@ exports.rejectFriendRequestCtrl = async (req, res) => {
     const initiator = await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', createdAt: Date.now()}],
+            $each: [{message: `${responder.name} rejected your friend request.`, type: 'resolved', createdAt: Date.now()}],
             $position: 0 
         },
       },
@@ -199,7 +199,7 @@ exports.acceptBookRequestCtrl = async (req, res) => {
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${user.name} accepted your request to borrow ${book}, get in touch now to organise collection!`, type: 'resolvedBookRequest', createdAt: Date.now()}],
+            $each: [{message: `${user.name} accepted your request to borrow ${book}, get in touch now to organise collection!`, type: 'resolved', createdAt: Date.now()}],
             $position: 0 
         },
       },
@@ -221,7 +221,7 @@ exports.rejectBookRequestCtrl = async (req, res) => {
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${user.name} rejected your request to borrow ${book}.`, type: 'resolvedBookRequest', createdAt: Date.now()}],
+            $each: [{message: `${user.name} rejected your request to borrow ${book}.`, type: 'resolved', createdAt: Date.now()}],
             $position: 0 
         },
       },

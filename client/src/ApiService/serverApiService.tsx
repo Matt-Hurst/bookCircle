@@ -81,6 +81,18 @@ async function rejectBookRequest(activity: ActivityLog): Promise<Object> {
   return result;
 }
 
+async function deleteMessage(activity: ActivityLog): Promise<Object> {
+  const result = await fetch(URL+'removeActivityLogElement', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(activity)
+  })
+  .then(response => response.json())
+  return result;
+}
+
 export {
   getUser,
   getFriendName,
@@ -88,5 +100,6 @@ export {
   rejectFriend,
   requestBook,
   acceptBookRequest,
-  rejectBookRequest
+  rejectBookRequest,
+  deleteMessage
 }

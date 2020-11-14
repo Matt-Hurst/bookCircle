@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
-import { getUser, acceptFriend, rejectFriend, acceptBookRequest, rejectBookRequest } from './ApiService/serverApiService'
+import { 
+  getUser, 
+  acceptFriend, 
+  rejectFriend, 
+  acceptBookRequest,
+  rejectBookRequest,
+  deleteMessage 
+  } from './ApiService/serverApiService'
 import { ActivityLog, User } from './Interfaces'
 import './App.scss';
 
@@ -16,7 +23,7 @@ function App() {
   // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
-    getUserData('Brett')
+    getUserData('Mo')
   }, [])
 
   // function to confirm friend
@@ -32,13 +39,17 @@ function App() {
   // function to confirm book request
   const confirmBookReq = async (activity: ActivityLog) => {
     const result: any = await acceptBookRequest(activity);
-    console.log('RESULT', result)
     setUserLoggedIn(result)
   }
   // function to reject book request
   const rejectBookReq = async (activity: ActivityLog) => {
     const result: any = await rejectBookRequest(activity);
-    console.log('RESULT', result)
+    setUserLoggedIn(result)
+  }
+
+  //function to remove messages with no actions from dashboard
+  const removeMessage = async (activity: ActivityLog) => {
+    const result: any = await deleteMessage(activity);
     setUserLoggedIn(result)
   }
 
@@ -51,6 +62,7 @@ function App() {
     rejectFriendRequest={rejectFriendRequest} 
     confirmBookReq={confirmBookReq}
     rejectBookReq={rejectBookReq}
+    removeMessage={removeMessage}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
