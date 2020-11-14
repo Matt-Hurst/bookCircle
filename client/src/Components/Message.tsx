@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { ActivityLog } from '../Interfaces'
 import './Message.scss'
 
-interface myProps {
+type MessageProps = {
   activity: ActivityLog
 }
 
@@ -14,7 +14,7 @@ interface myProps {
 
 // TODO: style component
 
-const Message = ({activity}: myProps) => {
+const Message: FunctionComponent<MessageProps> = ({activity}) => {
   return (
     <div className="messageContainer">
       <p>{activity.message}</p>

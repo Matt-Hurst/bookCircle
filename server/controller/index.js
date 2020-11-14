@@ -86,18 +86,23 @@ exports.confirmFriendCtrl = async (req, res) => {
   try {
     // { initiatorId: _id, responderId: _id }
     const { initiatorId, responderId, createdAt } = req.body;
-
-    // 1. get initiator info (previous user)
-    await User.findByIdAndUpdate(initiatorId, {
-      // b => add responderId to friends array
-      $push : { friends: responderId },
-      $pull : { pendingFriends: responderId }
-    }, {new: true})
-    // c => get responder info and add initiator id to friends array
+  
     const responder = await User.findByIdAndUpdate(responderId, {
       $push : { friends: initiatorId },
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true, safe: true});  
+
+    await User.findByIdAndUpdate(initiatorId, {
+      $push : { 
+        friends: responderId,
+        activityLog: {
+          $each: [{message: `${responder.name} accepted your friend request.`, type: 'friendAdded', createdAt: Date.now()}],
+          $position: 0
+     }
+      },
+      $pull : { pendingFriends: responderId }
+    }, {new: true})
+
     res.send(responder)
   } catch (error) {
     console.error('ERROR', error)

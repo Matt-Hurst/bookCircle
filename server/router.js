@@ -19,8 +19,8 @@ router.post('/createUser', createUserCtrl)
 router.post('/addBook', addBookCrtl)
 router.post('/addFriend', addFriendCtrl)
 router.post('/confirmFriend', confirmFriendCtrl)
-router.put('/updateTarget', updateTargetCtrl)
 router.delete('/rejectFriendRequest', rejectFriendRequestCtrl)
+router.put('/updateTarget', updateTargetCtrl)
 router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
 
 // ROUTES REQUIRED TODO:
