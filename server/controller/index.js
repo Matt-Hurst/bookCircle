@@ -108,6 +108,32 @@ exports.confirmFriendCtrl = async (req, res) => {
   }
 }
 
+exports.rejectFriendRequestCtrl = async (req, res) => {
+  try {
+    const {createdAt, userId, senderId} = req.body
+    // data { createdAt = _id, userId: 12312, senderId: 12321 }
+ 
+    // remove message from responder
+    const responder = await User.findByIdAndUpdate(userId, {
+      $pull : { activityLog: {createdAt: createdAt} }
+    }, {new: true})
+    // remove responder id from initiator prending array
+    const initiator = await User.findByIdAndUpdate(senderId, {
+        $push : {
+          activityLog: {
+            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', createdAt: Date.now()}],
+            $position: 0 
+        },
+      },
+      $pull : { pendingFriends: userId }
+    }, {new: true})
+    // add rejected friend request to activity log
+    res.send(responder)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
 exports.updateTargetCtrl = async (req, res) => {
   const { _id, target} = req.body
   try {
@@ -115,32 +141,6 @@ exports.updateTargetCtrl = async (req, res) => {
       yearlyTarget: target
     }, {new: true});
     res.send(updatedUser)
-  } catch (error) {
-    console.error('ERROR', error)
-  }
-}
-
-exports.rejectFriendRequestCtrl = async (req, res) => {
-  try {
-    const {createdAt, responderId, initiatorId} = req.body
-    // data { createdAt = _id, responderId: 12312, initiatorId: 12321 }
- 
-    // remove message from responder
-    const responder = await User.findByIdAndUpdate(responderId, {
-      $pull : { activityLog: {createdAt: createdAt} }
-    }, {new: true})
-    // remove responder id from initiator prending array
-    const initiator = await User.findByIdAndUpdate(initiatorId, {
-        $push : {
-          activityLog: {
-            $each: [{message: `${responder.name} rejected your friend request.`, type: 'rejectedFriendRequest', createdAt: Date.now()}],
-            $position: 0 
-        },
-      },
-      $pull : { pendingFriends: responderId }
-    }, {new: true})
-    // add rejected friend request to activity log
-    res.send(initiator.activityLog)
   } catch (error) {
     console.error('ERROR', error)
   }

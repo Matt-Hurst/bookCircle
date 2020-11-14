@@ -24,13 +24,24 @@ async function acceptFriend(activity: ActivityLog): Promise<Object> {
     body: JSON.stringify(activity)
   })
   .then(response => response.json())
-
   return result;
- 
+}
+
+async function rejectFriend(activity: ActivityLog): Promise<Object> {
+  const result = await fetch(URL+'rejectFriendRequest', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(activity)
+  })
+  .then(response => response.json())
+  return result;
 }
 
 export {
   getUser,
   getFriendName,
-  acceptFriend
+  acceptFriend,
+  rejectFriend
 }

@@ -13,10 +13,11 @@ import './Dashboard.scss'
 
 type DashboardProps = {
   user: User,
-  confirmFriend: Function
+  confirmFriend: Function,
+  rejectFriendRequest: Function
 }
 
-const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend}) => {
+const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest}) => {
   
   // function to look through each book, if book year === current year, add to count
   const userId = user._id
@@ -24,7 +25,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend}) => 
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
-    {user.activityLog.map((activity:any) => <Message activity={activity} confirmFriend={confirmFriend} userId={userId} />)}
+    {user.activityLog.map((activity:any) => <Message activity={activity} confirmFriend={confirmFriend} userId={userId} rejectFriendRequest={rejectFriendRequest}/>)}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <h1 className='dashboardHeader'>Friends books available to borrow:</h1>
 

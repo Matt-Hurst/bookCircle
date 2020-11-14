@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
-import { getUser, acceptFriend } from './ApiService/serverApiService'
+import { getUser, acceptFriend, rejectFriend } from './ApiService/serverApiService'
 import { ActivityLog, User } from './Interfaces'
 import './App.scss';
 
@@ -24,10 +24,15 @@ function App() {
     const result: any = await acceptFriend(activity);
     setUserLoggedIn(result)
   }
+  // function to reject friend request
+  const rejectFriendRequest = async (activity: ActivityLog) => {
+    const result: any = await rejectFriend(activity);
+    setUserLoggedIn(result)
+  }
 
   return (
     <div>
-    { userLoggedIn && <AuthenticatedApp user={userLoggedIn} confirmFriend={confirmFriend} />}
+    { userLoggedIn && <AuthenticatedApp user={userLoggedIn} confirmFriend={confirmFriend} rejectFriendRequest={rejectFriendRequest} />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>
   );
