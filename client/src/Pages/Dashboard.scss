@@ -35,3 +35,13 @@ $background-color: #F6E7D8;
     margin-top: 0;
   }
 }
+
+.editTargetBtn {
+  background-color: $primary-dark;
+  color: $background-color;
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  font-size: 1rem;
+  font-weight: bold;
+}

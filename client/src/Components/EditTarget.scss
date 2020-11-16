@@ -1,0 +1,56 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.EditTargetDisplayDiv {
+  position: fixed;
+  display: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(182, 182, 182, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.EditTargetPopOutDiv {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 5px solid $primary-dark;
+  border-radius: 10px;
+  background-color: $background-color;
+  max-height: 40vh;
+  min-height: 40vh;
+  min-width: 90vw;
+  max-width: 90vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.editTargetForm {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+
+  input {
+    height: 100px;
+    text-align: center;
+    max-width: 50vw;
+    font-size: 3rem;
+  }
+
+  button {
+    margin-top: 2rem;
+    background-color: $primary-dark;
+    color: $background-color;
+    border-radius: 10px;
+    border: none;
+    padding: 0.5rem 0.7rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}

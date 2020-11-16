@@ -8,7 +8,8 @@ import {
   acceptBookRequest,
   rejectBookRequest,
   deleteMessage,
-  addFriend 
+  addFriend,
+  updateTarget
   } from './ApiService/serverApiService'
 import { ActivityLog, User, AddFriend, BookRequest } from './Interfaces'
 import './App.scss';
@@ -60,6 +61,12 @@ function App() {
     setUserLoggedIn(result)
   }
 
+  // update target
+  const updateYearlyTarget = async (id: string, newTarget: number) => {
+    const result: any = await updateTarget(id, newTarget);
+    setUserLoggedIn(result)
+  }
+
   return (
     <div>
     { userLoggedIn && 
@@ -71,6 +78,7 @@ function App() {
     rejectBookReq={rejectBookReq}
     removeMessage={removeMessage}
     handleAddFriend={handleAddFriend}
+    updateYearlyTarget={updateYearlyTarget}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>

@@ -110,6 +110,17 @@ async function deleteMessage(activity: ActivityLog): Promise<Object> {
   return result;
 }
 
+async function updateTarget(id: string, newTarget: number) {
+  return await fetch(URL+'updateTarget', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({_id: id, target: newTarget})
+  })
+  .then(response => response.json())
+}
+
 export {
   getUser,
   getFriendName,
@@ -121,5 +132,6 @@ export {
   deleteMessage,
   searchFriend,
   addFriend,
-  getAvailableBooks
+  getAvailableBooks,
+  updateTarget
 }

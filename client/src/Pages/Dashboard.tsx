@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import Message from "../Components/Message"
 import BookShelf from "../Components/BookShelf"
 import ProgressBar from "../Components/ProgressBar"
+import EditTarget from "../Components/EditTarget"
 import { User } from '../Interfaces'
 import { getAvailableBooks } from "../ApiService/serverApiService"
 import './Dashboard.scss'
@@ -20,15 +21,27 @@ type DashboardProps = {
   rejectFriendRequest: Function,
   confirmBookReq: Function,
   rejectBookReq: Function,
-  removeMessage: Function
+  removeMessage: Function,
+  updateYearlyTarget: Function
 }
 
-const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
-  const [borrowableBooks, setBorrowableBooks] = useState(null)
+const Dashboard: FunctionComponent<DashboardProps> = (
+  {
+    user, 
+    confirmFriend, 
+    rejectFriendRequest, 
+    confirmBookReq, 
+    rejectBookReq, 
+    removeMessage,
+    updateYearlyTarget
+  }) => {
+    const [borrowableBooks, setBorrowableBooks] = useState(null)
+    const [updateTargetClicked, setUpdateTargetClicked] = useState(false)
 
-
-  // TODO:function to look through each book, if book year === current year, add to count
-
+  async function handleUpdateTarget (newTarget: number) {
+    await updateYearlyTarget(user._id, newTarget)
+    setUpdateTargetClicked(false)
+  }
 
   async function getAllAvailableBooks (id:string | null) {
     const result = await getAvailableBooks(id)
@@ -81,8 +94,16 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
       <div className="progressText">
         <h3>Books read this year:</h3>
         <h3>{`${booksReadThisYear}/${user.yearlyTarget}`}</h3>
+        <button className="editTargetBtn"
+          onClick={() => {
+            setUpdateTargetClicked(true)
+        }}>edit</button>
       </div>
     </div>
+    {updateTargetClicked && 
+      <EditTarget target={user.yearlyTarget} 
+                  setUpdateTargetClicked={setUpdateTargetClicked}
+                  handleUpdateTarget={handleUpdateTarget}/>}
     <h1 className='dashboardHeader'>All available books:</h1>
       <BookShelf books={borrowableBooks} handleBookClicked={availableBookClicked} fromDashboard={true}/>
   </>
