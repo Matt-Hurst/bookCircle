@@ -1,0 +1,29 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+.containerStyles  {
+  height: 200px;
+  width: 20vw;
+  background-color: rgb(196, 191, 191);
+  border-radius: 50;
+  margin: 50;
+  display: flex;
+  align-items: flex-end;
+  box-shadow:  5px 5px 5px  #f1dac3;
+}
+
+.fillerStyles  {
+  width: 100%;
+  background-color: rgb(6, 102, 6);
+  border-radius: inherit;
+  text-align: right;
+  display: flex;
+  justify-content: center;
+}
+
+.labelStyles  {
+  padding: 5;
+  color: white;
+  font-weight: bold;
+}

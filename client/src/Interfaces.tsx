@@ -19,7 +19,8 @@ interface User {
   _id: string | null;
   name: string | null;
   password: string | null; //TODO: UPDATE WHEN ADDING AUTHENTICATION
-  activityLog: Array<object | null>
+  activityLog: Array<object | null>;
+  yearlyTarget: number;
 }
 
 interface ActivityLog {
