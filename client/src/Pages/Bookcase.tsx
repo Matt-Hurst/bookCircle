@@ -23,7 +23,7 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
   
   // state to save selected book => pass that state to FriendsBook component
   function handleFriendsBookClicked(book:Book) {
-    console.log('CLICKED BOOK FRIEND LIBRARY')
+    console.log('CLICKED BOOK FRIEND LIBRARY', book)
     setClickedBook(book)
   }
 

@@ -1,1 +1,29 @@
-.messageContainer {}
+.messageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2rem 1rem;
+  padding: 1rem;
+  border: 6px solid #f1dac3;
+  border-radius: 10px;
+  align-items: center;
+
+  .requestBtnsContainer {
+    display: flex;
+  }
+
+  .friendRequestBtnAccept,
+  .friendRequestBtnReject,
+  .resolveRequestBtn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .friendRequestBtnAccept {color: green;}
+
+  .friendRequestBtnReject { color: red;}
+
+  .resolveRequestBtn {
+    color: green;
+  }
+}

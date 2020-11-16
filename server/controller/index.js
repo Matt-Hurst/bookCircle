@@ -173,19 +173,20 @@ exports.removeActivityLogElementCtrl = async (req, res) => {
 exports.requestBookCtrl = async (req, res) => {
   // { user = name, book, friendId } => date to receive should look something like this..
   const { user, book, friendId } = req.body
+
   try {
     //find and update book owner by Id
     await User.updateOne({
       _id: friendId, books: { $elemMatch: { id: book.id}}
     },
-    { $set: {"books.$.availableToBorrow" : false }}
+    { $set: {"books.$.availableToBorrow" : false }} 
     )
     
     const result = await User.findByIdAndUpdate(friendId, {
       //push activity log type bookRequest to owner of book
       $push : {
         activityLog: {
-          $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.id, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
+          $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.id, title: book.title, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
           $position: 0 
         },
       },
@@ -200,7 +201,7 @@ exports.requestBookCtrl = async (req, res) => {
 
 exports.acceptBookRequestCtrl = async (req, res) => {
   try {
-    const {createdAt, userId, senderId, book} = req.body
+    const {createdAt, userId, senderId, book, title} = req.body
     
     const user = await User.findByIdAndUpdate(userId, {
       $pull : { activityLog: {createdAt: createdAt} }
@@ -209,11 +210,12 @@ exports.acceptBookRequestCtrl = async (req, res) => {
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${user.name} accepted your request to borrow ${book}, get in touch now to organise collection!`, type: 'resolved', createdAt: Date.now()}],
+            $each: [{message: `${user.name} accepted your request to borrow ${title}, get in touch now to organise collection!`, type: 'resolved', createdAt: Date.now()}],
             $position: 0 
         },
       },
     })
+
     res.send(user)
   } catch (error) {
     console.error('ERROR', error)
@@ -222,7 +224,7 @@ exports.acceptBookRequestCtrl = async (req, res) => {
 
 exports.rejectBookRequestCtrl = async (req, res) => {
   try {
-    const {createdAt, userId, senderId, book} = req.body
+    const {createdAt, userId, senderId, book, title} = req.body
     
     await User.updateOne({
       _id: userId, books: { $elemMatch: { id: book}}
@@ -237,7 +239,7 @@ exports.rejectBookRequestCtrl = async (req, res) => {
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
-            $each: [{message: `${user.name} rejected your request to borrow ${book}.`, type: 'resolved', createdAt: Date.now()}],
+            $each: [{message: `${user.name} rejected your request to borrow ${title}.`, type: 'resolved', createdAt: Date.now()}],
             $position: 0 
         },
       },

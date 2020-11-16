@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { ActivityLog } from '../Interfaces'
+import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import './Message.scss'
 
 type MessageProps = {
@@ -21,8 +22,8 @@ type MessageProps = {
 
 const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, userId, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
   
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const action = e.currentTarget.getAttribute('value');
+  const handleClick = (action: string | React.MouseEvent<SVGElement, MouseEvent>) => {
+    // const action = e.currentTarget.getAttribute('value');
     if (activity.type === 'friendRequest') {
       if (action === 'accept') {
         confirmFriend({...activity, userId: userId})
@@ -41,21 +42,21 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
   }
 
   return (
-    <div className="messageContainer"> 
+    <div className="messageContainer">
       <p>{activity.message}</p>
       {activity.type === 'friendRequest' && 
-        <div>
-          <button value="accept" onClick={handleClick}>accept</button>
-          <button value="reject" onClick={handleClick}>reject</button>
+        <div className="requestBtnsContainer">
+          <IoIosCheckmarkCircle className="friendRequestBtnAccept" onClick={() => handleClick('accept')} />
+          <IoIosCloseCircle className="friendRequestBtnReject" onClick={() => handleClick('reject')} />
         </div>}
       {activity.type === 'bookRequest' && 
-        <div>
-          <button value="accept" onClick={handleClick}>accept</button>
-          <button value="reject" onClick={handleClick}>reject</button>
+        <div className="requestBtnsContainer">
+          <IoIosCheckmarkCircle className="friendRequestBtnAccept" onClick={() => handleClick('accept')} />
+          <IoIosCloseCircle className="friendRequestBtnReject" onClick={() => handleClick('reject')} />
         </div>}
       {activity.type === 'resolved' && 
         <div>
-          <button onClick={handleClick}>ok</button>
+          <IoIosCheckmarkCircle className="resolveRequestBtn" onClick={handleClick} />
         </div>}
     </div>
   )

@@ -7,7 +7,8 @@ const activityLogSchema = new mongoose.Schema({
   senderId: {type: mongoose.Schema.Types.ObjectId},
   createdAt: Date,
   book: String,
-  activityId: Number
+  activityId: Number,
+  title: String
 })
 
 const userSchema = mongoose.Schema({
