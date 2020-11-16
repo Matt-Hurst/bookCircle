@@ -249,3 +249,31 @@ exports.rejectBookRequestCtrl = async (req, res) => {
     console.error('ERROR', error)
   }
 }
+
+exports.getAvailableBooksCtrl = async (req,res) => {
+  try {
+  const { userId } = req.params
+  const result = []
+  const user = await User.findById(userId)
+  
+  for(let i = 0; i < user.friends.length; i++) {
+    const friend = await User.findById(user.friends[i])
+    friend.books.forEach(book => {
+      if (book.availableToBorrow) {
+        result.push(
+          {
+            friendName: friend.name, 
+            book
+          })
+        }
+    })
+
+  }
+  res.send(result)
+
+    
+  } catch (error) {
+    console.error('ERROR', error)
+    
+  }
+}

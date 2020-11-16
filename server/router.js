@@ -13,7 +13,8 @@ const {
    requestBookCtrl,
    acceptBookRequestCtrl,
    rejectBookRequestCtrl,
-   searchUsersCtrl
+   searchUsersCtrl,
+   getAvailableBooksCtrl
    } = require('./controller')
 
 router.get('/', getCtrl)
@@ -33,6 +34,7 @@ router.post('/addBook', addBookCrtl)
 router.post('/requestBook', requestBookCtrl)
 router.post('/acceptBookRequest', acceptBookRequestCtrl)
 router.post('/rejectBookRequest', rejectBookRequestCtrl)
+router.get('/availableBooks/:userId', getAvailableBooksCtrl)
 
 // ROUTES REQUIRED TODO:
 
@@ -40,10 +42,5 @@ router.post('/rejectBookRequest', rejectBookRequestCtrl)
 
 // TODO: remove book from library => router.delete('/removeBook') => if added wrong book for example
 
-// TODO: request book from friend => router.post('/requestBook)
-
-// TODO: accept book request => router.put('/acceptBookRequest')
-
-// TODO: reject book request => router.put('/rejectBookRequest')
 
 module.exports = router

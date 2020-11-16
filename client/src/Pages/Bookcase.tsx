@@ -23,13 +23,11 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
   
   // state to save selected book => pass that state to FriendsBook component
   function handleFriendsBookClicked(book:Book) {
-    console.log('CLICKED BOOK FRIEND LIBRARY', book)
     setClickedBook(book)
   }
 
   function handleUserBookClick(book:Book) : void {
     setClickedBook(book)
-    console.log('EXIT')
   }
   
   function handleClosePopOut(): void {
@@ -40,7 +38,6 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
     <div className="bookCase">
       {clickedBook && <FriendsBook handleClosePopOut={handleClosePopOut} handleBookRequest={props.handleBookRequest} clickedBook={clickedBook} />}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
-      {/* <h2 className="bookCaseH2">{selectedBooks}</h2>  */}
       <select defaultValue="all" onChange={handleChange} id="filterBooks">
         <option value="all">All Books</option>
         <option value="borrow">Available to Borrow</option>

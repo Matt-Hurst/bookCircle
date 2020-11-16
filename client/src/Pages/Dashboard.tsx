@@ -22,13 +22,15 @@ type DashboardProps = {
 
 const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
   
-  // function to look through each book, if book year === current year, add to count
+  // TODO:function to look through each book, if book year === current year, add to count
+
+  // TODO: get all available books to borrow
   const userId = user._id
 
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
-    {user.activityLog.map((activity:any, i) => {
+    {user.activityLog.length ? user.activityLog.map((activity:any, i) => {
     return <Message 
       key={activity._id}
       activity={activity} 
@@ -39,7 +41,8 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
       rejectBookReq={rejectBookReq}
       removeMessage={removeMessage}
       />
-    })}
+    }): null}
+    {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <h1 className='dashboardHeader'>Friends books available to borrow:</h1>
   </>
