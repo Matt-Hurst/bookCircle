@@ -1,43 +1,37 @@
 import React, { FunctionComponent, useState } from "react"
+import {UserInfo, User} from "../Interfaces"
 import { BsFillPersonFill } from "react-icons/bs";
 import './Friend.scss'
 
-type UserInfo = {
-  _id: string,
-  name: string
-}
 
 type FriendSearchResultProps = {
-  users: Array<UserInfo>,
-  handleAddFriend: Function,
-  user: string | null
+  otherUser: UserInfo,
+  handleClick: Function,
+  user: User
 }
 
-const FriendSearchResult: FunctionComponent<FriendSearchResultProps> = ({users, handleAddFriend, user}) => {
-  const [addFriendClicked, setAddFriendClicked] = useState(false)
+const FriendSearchResult: FunctionComponent<FriendSearchResultProps> = ({otherUser, handleClick, user}) => {
+  const [pendingFriends, setPendingFriends] = useState(user.pendingFriends)
+  const currentFriends = user.friends;
 
-  const handleClick = (id: string) => {
-    handleAddFriend({friend_id: id, user: user})
-    setAddFriendClicked(true)
-  }
 
   return (
-    <div> 
-      {users.map((user,i) => {
-        return (
-          <div className="friendDiv" key={user._id}>
-            <div className="friendIconAndNameDiv">
-              <BsFillPersonFill className="friendIcon" />
-              <h3>{user.name}</h3>
-            </div>
-              <button className={addFriendClicked ? 'clickedFriendBtn' : "friendButton"} onClick={() => handleClick(user._id)} >
-              {addFriendClicked ? 'request sent' : "add friend"}
-              </button>    
-          </div>
-        )
-      })}
+    <div className="friendDiv" key={otherUser._id}>
+      <div className="friendIconAndNameDiv">
+        <BsFillPersonFill className="friendIcon" />
+        <h3>{otherUser.name}</h3>
+      </div>
+      { !(pendingFriends.includes(otherUser._id) || currentFriends?.includes(otherUser._id)) ? <button className="friendButton" onClick={() => {
+          handleClick(otherUser._id)
+          setPendingFriends([otherUser._id, ...pendingFriends])
+         }}>add friend</button> : null}
+      { pendingFriends.includes(otherUser._id) ? <button className="clickedFriendBtn" 
+      >request sent</button> : null}
+     { currentFriends && currentFriends.includes(otherUser._id) && <button className="friendsBtn" 
+      >friends</button>}
     </div>
   )
 }
+
 
 export default FriendSearchResult;

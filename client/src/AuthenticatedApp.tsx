@@ -64,7 +64,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = ({user, confirmFriend,
             <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
           </Route>
           <Route path="/friendSearch">
-            <FriendSearch handleAddFriend={handleAddFriend} user={user.name}/>
+            <FriendSearch handleAddFriend={handleAddFriend} user={user}/>
           </Route>
           <Route path="/friendsLibrary">
             <Bookcase username={user.name} 

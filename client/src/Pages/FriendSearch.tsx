@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useState } from "react"
-import FriendSearchResult from '../Components/FriendSearchResult'
+import FriendsSearchResults from '../Components/FriendsSearchResults'
 import { searchFriend } from '../ApiService/serverApiService'
+import {User} from '../Interfaces'
 
 type FriendSearchProps = {
   handleAddFriend: Function,
-  user: string | null
+  user: User
 }
 
 const FriendSearch: FunctionComponent<FriendSearchProps> = ({handleAddFriend, user}) => {
@@ -35,7 +36,7 @@ const FriendSearch: FunctionComponent<FriendSearchProps> = ({handleAddFriend, us
           <button className="searchBtn">search</button>
         </div>
       </form>
-    { isSearch && <FriendSearchResult users={searchResults} handleAddFriend={handleAddFriend} user={user} />
+    { isSearch && <FriendsSearchResults users={searchResults} handleAddFriend={handleAddFriend} user={user} />
   }
     </div>
   )

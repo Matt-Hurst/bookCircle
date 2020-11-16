@@ -40,10 +40,16 @@ interface BookRequest  {
   friendId: any;
 }
 
+interface UserInfo {
+  _id: string;
+  name: string;
+}
+
 export type {
   Book,
   User,
   ActivityLog,
   AddFriend,
-  BookRequest
+  BookRequest, 
+  UserInfo
 };
