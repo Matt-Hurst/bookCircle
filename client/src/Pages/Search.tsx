@@ -17,10 +17,10 @@ interface bookClicked {
 }
 
 interface userInput {
-  date: any;
+  date: any | undefined;
   review: string | undefined;
-  availableToLend: boolean;
-  star: boolean;
+  availableToLend: boolean | undefined;
+  star: boolean | undefined;
 }
 
 interface book {
@@ -46,8 +46,8 @@ const Search = ({user}: myProps) => {
   const [titles, setTitles] = useState([]);
   const [bookClicked, setBookClicked] = useState<bookClicked>();
   const [userInput, setUserInput] = useState<userInput>({
-    date: undefined,
-    review: undefined,
+    date: 1,
+    review: '',
     availableToLend: false,
     star: false,
   });
@@ -62,7 +62,6 @@ const Search = ({user}: myProps) => {
       let data = books.items
       setTitles(data.slice(0, 40))
       setIsSearch(true)
-      console.log(titles);
     })
     .catch(error => {console.log(error)})
   };
@@ -134,6 +133,7 @@ const Search = ({user}: myProps) => {
 
   // TODO: create fetch request to send new book to server to add to user library
   const addBookToDataBase = async () => {
+    console.log(typeof userInput.date)
     const newBook:newBook = {
       book: {
         title: bookClicked?.title,
@@ -179,7 +179,12 @@ const Search = ({user}: myProps) => {
             <input type="date" value={userInput.date} onChange={(e) => handleDateChange(e, 'date')}/>
             <div className="addBookPopOutFormBtns">
               <button onClick={moveToPreviousQuestion}>back</button>
-              <button onClick={moveToNextQuestion}>next</button>
+              <button onClick={() => {
+                if (userInput.date) {
+                  moveToNextQuestion()
+                }
+              }
+                }>next</button>
             </div>
           </div>}
           {questionSetion === 2 && <div className="addBookPopOutForm">
@@ -187,7 +192,12 @@ const Search = ({user}: myProps) => {
             <input className="addBookReviewInput" type="text" value={userInput.review} onChange={(e) => handleDateChange(e, 'review')}/>
             <div className="addBookPopOutFormBtns">
               <button onClick={moveToPreviousQuestion}>back</button>
-              <button onClick={moveToNextQuestion}>next</button>
+              <button onClick={() => {
+                if (userInput.review) {
+                  moveToNextQuestion()
+                }
+              }
+              }>next</button>
             </div>
           </div>}
           {questionSetion === 3 && <div className="addBookPopOutForm">

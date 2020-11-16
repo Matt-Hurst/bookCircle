@@ -19,6 +19,7 @@ const FriendsSearchResults: FunctionComponent<FriendsSearchResultsProps> = ({use
   return (
     <div> 
       {users.map((otherUser) => {
+        if (otherUser._id === user._id) return null;
         return (
           <FriendSearchResult otherUser={otherUser} handleClick={handleClick} user={user} />
         )})}

@@ -44,7 +44,20 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
     getAllAvailableBooks(user._id)
   } ,[])
 
-  console.log(user)
+  let booksReadThisYear = 0;
+
+  if (user.books && user.books.length > 0) {
+    user.books.forEach(book => {
+      if( book.dateRead) {
+        const date = new Date(book.dateRead)
+        const currentYear = new Date().getFullYear()
+        if (date.getFullYear() === currentYear) {
+          booksReadThisYear++;
+        }
+      }
+    }
+    )
+  }
 
   return (
   <>
@@ -64,10 +77,10 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
     {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <div className="progressSection">
-      <ProgressBar completed={user.books ? (user.books.length/user.yearlyTarget)*100: null}/>
+      <ProgressBar completed={user.books && user.books.length > 0 ? (booksReadThisYear/user.yearlyTarget)*100: 0}/>
       <div className="progressText">
         <h3>Books read this year:</h3>
-        <h3>{`${user.books ? user.books.length: 0}/${user.yearlyTarget}`}</h3>
+        <h3>{`${booksReadThisYear}/${user.yearlyTarget}`}</h3>
       </div>
     </div>
     <h1 className='dashboardHeader'>All available books:</h1>

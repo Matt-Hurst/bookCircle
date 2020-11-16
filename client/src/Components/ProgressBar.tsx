@@ -6,9 +6,8 @@ type ProgressBarProps = {
 }
 
 const ProgressBar: FunctionComponent<ProgressBarProps> = (props) => {
-  const { completed } = props;
+  let { completed } = props;
   
-
   return (
     <div className="containerStyles">
       <div className="fillerStyles" style={{height: `${completed}%`}}>
