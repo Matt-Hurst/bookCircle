@@ -90,7 +90,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <div className="progressSection">
-      <ProgressBar completed={user.books && user.books.length > 0 ? (booksReadThisYear/user.yearlyTarget)*100: 0}/>
+      <ProgressBar completed={user.books && user.books.length > 0 ? Math.round((booksReadThisYear/user.yearlyTarget)*100): 0}/>
       <div className="progressText">
         <h3>Books read this year:</h3>
         <h3>{`${booksReadThisYear}/${user.yearlyTarget}`}</h3>
