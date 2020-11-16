@@ -8,7 +8,8 @@ type BookCaseProps = {
   user: User,
   name?: string | null,
   username: string | null,
-  handleBookRequest: Function
+  handleBookRequest: Function,
+  fromDashboard: boolean,
 }
 
 const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
@@ -36,7 +37,13 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
    
   return (
     <div className="bookCase">
-      {clickedBook && <FriendsBook handleClosePopOut={handleClosePopOut} handleBookRequest={props.handleBookRequest} clickedBook={clickedBook} />}
+      {clickedBook && 
+        <FriendsBook 
+          handleClosePopOut={handleClosePopOut} 
+          handleBookRequest={props.handleBookRequest} 
+          clickedBook={clickedBook} 
+          fromDashboard={props.fromDashboard}
+        />}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
       <select defaultValue="all" onChange={handleChange} id="filterBooks">
         <option value="all">All Books</option>

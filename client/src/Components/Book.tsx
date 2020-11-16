@@ -6,7 +6,7 @@ import './Book.scss'
 
 type BookProps = {
   book: any,
-  handleBookClicked: Function
+  handleBookClicked: Function,
 }
 
 const BookDisplay: FunctionComponent<BookProps> = ({book, handleBookClicked}) => {

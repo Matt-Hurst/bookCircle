@@ -66,10 +66,12 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             rejectBookReq={rejectBookReq}
             removeMessage={removeMessage}
             updateYearlyTarget={updateYearlyTarget}
+            handleBookRequest={handleBookRequest}
+            getSelectedFriend={getSelectedFriend}
             />
           </Route>
           <Route path="/yourLibrary" >
-            <Bookcase username={user.name} user={user} handleBookRequest={handleBookRequest}/>
+            <Bookcase username={user.name} user={user} handleBookRequest={handleBookRequest} fromDashboard={false} />
           </Route>
           <Route path="/friends">
             <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
@@ -82,6 +84,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             user={selectedFriend || user} 
             name={selectedFriend ? selectedFriend.name : null} 
             handleBookRequest={handleBookRequest}
+            fromDashboard={false}
             /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >

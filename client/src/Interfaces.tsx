@@ -10,6 +10,7 @@ interface Book {
   star: boolean | undefined;
   _id: string | undefined;
   book?: Book;
+  friendName?: string;
 }
 
 interface User {
@@ -48,9 +49,10 @@ interface UserInfo {
 }
 
 interface BorrowableBook {
-  name: string;
+  friendName: string;
   book: Book;
 }
+
 
 export type {
   Book,

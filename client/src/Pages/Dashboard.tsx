@@ -3,17 +3,10 @@ import Message from "../Components/Message"
 import BookShelf from "../Components/BookShelf"
 import ProgressBar from "../Components/ProgressBar"
 import EditTarget from "../Components/EditTarget"
-import { User } from '../Interfaces'
+import FriendsBook from "../Components/FriendsBook"
+import { User, Book } from '../Interfaces'
 import { getAvailableBooks } from "../ApiService/serverApiService"
 import './Dashboard.scss'
-
-/* TODO:
-
-=> make activity component and make render again
-=> render goal and progress
-=> find nice pie chart plugin
-=> display book shelf showing all books users friends have available to borrow
-*/
 
 type DashboardProps = {
   user: User,
@@ -22,7 +15,9 @@ type DashboardProps = {
   confirmBookReq: Function,
   rejectBookReq: Function,
   removeMessage: Function,
-  updateYearlyTarget: Function
+  updateYearlyTarget: Function,
+  handleBookRequest: Function,
+  getSelectedFriend: Function
 }
 
 const Dashboard: FunctionComponent<DashboardProps> = (
@@ -33,10 +28,13 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     confirmBookReq, 
     rejectBookReq, 
     removeMessage,
-    updateYearlyTarget
+    updateYearlyTarget,
+    handleBookRequest,
+    getSelectedFriend
   }) => {
     const [borrowableBooks, setBorrowableBooks] = useState(null)
     const [updateTargetClicked, setUpdateTargetClicked] = useState(false)
+    const [bookClicked, setBookClicked] = useState<Book>()
 
   async function handleUpdateTarget (newTarget: number) {
     await updateYearlyTarget(user._id, newTarget)
@@ -45,11 +43,14 @@ const Dashboard: FunctionComponent<DashboardProps> = (
 
   async function getAllAvailableBooks (id:string | null) {
     const result = await getAvailableBooks(id)
-    setBorrowableBooks(result)
+    const books = result.map((obj: any) => {
+      return {...obj.book, friendName: obj.friendName}
+    })
+    setBorrowableBooks(books)
   }
 
-  function availableBookClicked (book: any) {
-    console.log(book)
+  function availableBookClicked (book: Book) {
+    setBookClicked(book)
   }
   const userId = user._id
 
@@ -72,6 +73,8 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     )
   }
 
+  console.log('BB',borrowableBooks)
+
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
@@ -90,7 +93,8 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <div className="progressSection">
-      <ProgressBar completed={user.books && user.books.length > 0 ? Math.round((booksReadThisYear/user.yearlyTarget)*100): 0}/>
+      <ProgressBar completed={user.books && user.books.length > 0 ? 
+        Math.round((booksReadThisYear/user.yearlyTarget)*100): 0}/>
       <div className="progressText">
         <h3>Books read this year:</h3>
         <h3>{`${booksReadThisYear}/${user.yearlyTarget}`}</h3>
@@ -105,7 +109,15 @@ const Dashboard: FunctionComponent<DashboardProps> = (
                   setUpdateTargetClicked={setUpdateTargetClicked}
                   handleUpdateTarget={handleUpdateTarget}/>}
     <h1 className='dashboardHeader'>All available books:</h1>
-      <BookShelf books={borrowableBooks} handleBookClicked={availableBookClicked} fromDashboard={true}/>
+    <BookShelf books={borrowableBooks} handleBookClicked={availableBookClicked} fromDashboard={true} />
+    {bookClicked && 
+      <FriendsBook  clickedBook={bookClicked} 
+                    handleBookRequest={handleBookRequest} 
+                    handleClosePopOut={setBookClicked}
+                    fromDashboard={true}
+                    getSelectedFriend={getSelectedFriend}
+                    />}
+                    
   </>
   )
 }
