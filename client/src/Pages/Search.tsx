@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import SearchResults from '../Components/SearchResults'
-import { User } from '../Interfaces'
+import { User, NewBook } from '../Interfaces'
 import './Search.scss'
 
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
 
 interface myProps {
   user: User;
+  addBookToBookCase: Function;
 }
 
 interface bookClicked {
@@ -23,23 +24,18 @@ interface userInput {
   star: boolean | undefined;
 }
 
-interface book {
-  title: string | undefined;
-  authors: string[] | undefined;
-  imageUrl: string | undefined;
-  dateRead: string | undefined;
-  review: string | undefined;
-  availableToBorrow: boolean | undefined;
-  genre: string | undefined;
-  star: boolean | undefined; 
-}
+// interface book {
+//   title: string | undefined;
+//   authors: string[] | undefined;
+//   imageUrl: string | undefined;
+//   dateRead: string | undefined;
+//   review: string | undefined;
+//   availableToBorrow: boolean | undefined;
+//   genre: string | undefined;
+//   star: boolean | undefined; 
+// }
 
-interface newBook {
-  book: book;
-  user: string | null;
-}
-
-const Search = ({user}: myProps) => {
+const Search = ({user, addBookToBookCase}: myProps) => {
   const [search, setSearch] = useState('');
   const [placeholder, setPlaceholder] = useState('title'); 
   const [isSearch, setIsSearch] = useState(false);
@@ -133,8 +129,7 @@ const Search = ({user}: myProps) => {
 
   // TODO: create fetch request to send new book to server to add to user library
   const addBookToDataBase = async () => {
-    console.log(typeof userInput.date)
-    const newBook:newBook = {
+    const newBook:NewBook = {
       book: {
         title: bookClicked?.title,
         authors: bookClicked?.authors,
@@ -147,16 +142,17 @@ const Search = ({user}: myProps) => {
       },
       user: user.name
     }
+    await addBookToBookCase(newBook)
 
-    await fetch('http://localhost:3001/addBook', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newBook)
-    })
-    .then(response => response.json())
-    .then(result => console.log('FROM SERVER: ',result))// TODO: send this data somewhere useful!
+    // await fetch('http://localhost:3001/addBook', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(newBook)
+    // })
+    // .then(response => response.json())
+    // .then(result => console.log('FROM SERVER: ',result))
     setBookClicked(undefined);
     setUserInput({
       date: undefined,

@@ -9,9 +9,10 @@ import {
   rejectBookRequest,
   deleteMessage,
   addFriend,
-  updateTarget
+  updateTarget,
+  addBook
   } from './ApiService/serverApiService'
-import { ActivityLog, User, AddFriend, BookRequest } from './Interfaces'
+import { ActivityLog, User, AddFriend, BookRequest, NewBook } from './Interfaces'
 import './App.scss';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
   
   useEffect( () => {
     getUserData('Matt')
-  }, [])
+  }, [userLoggedIn])
 
   // function to add friend
   const handleAddFriend = async (obj: AddFriend) => {
@@ -67,6 +68,12 @@ function App() {
     setUserLoggedIn(result)
   }
 
+  // add book
+  const addBookToBookCase = async (newbook: NewBook) => {
+    const result: any = await addBook(newbook);
+    setUserLoggedIn(result)
+  }
+
   return (
     <div>
     { userLoggedIn && 
@@ -79,6 +86,7 @@ function App() {
     removeMessage={removeMessage}
     handleAddFriend={handleAddFriend}
     updateYearlyTarget={updateYearlyTarget}
+    addBookToBookCase={addBookToBookCase}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>

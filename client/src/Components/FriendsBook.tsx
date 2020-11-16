@@ -8,7 +8,8 @@ type FriendsBookProps = {
   handleBookRequest: Function,
   handleClosePopOut: Function,
   fromDashboard: boolean,
-  getSelectedFriend?: Function
+  getSelectedFriend?: Function,
+  updateAvailableBooks?: Function
 }
 const FriendsBook:FunctionComponent<FriendsBookProps>  = (
   {
@@ -16,7 +17,8 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = (
     handleBookRequest, 
     handleClosePopOut, 
     fromDashboard,
-    getSelectedFriend
+    getSelectedFriend,
+    updateAvailableBooks
   }) => {
   const [buttonText, setButtonText] = useState('request book')
 
@@ -25,6 +27,7 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = (
   }, [])
 
   const handleClick = () => {
+    if (updateAvailableBooks) updateAvailableBooks()
     handleBookRequest(clickedBook)
     setButtonText('requested')
   }

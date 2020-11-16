@@ -12,7 +12,8 @@ type EditTargetProps = {
 const EditTarget: FunctionComponent<EditTargetProps> = ({target, setUpdateTargetClicked, handleUpdateTarget}) => {
   const [userInput, setUserInput] = useState('')
 
-  const handleClick = () => {
+  const handleClick = (e: React.FormEvent) => {
+    e.preventDefault()
     handleUpdateTarget(Number(userInput))
   }
 

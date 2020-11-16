@@ -49,6 +49,10 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     setBorrowableBooks(books)
   }
 
+  async function updateAvailableBooks() {
+    return await getAllAvailableBooks(user._id)
+  }
+
   function availableBookClicked (book: Book) {
     setBookClicked(book)
   }
@@ -56,7 +60,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (
 
   useEffect( () => {
     getAllAvailableBooks(user._id)
-  } ,[])
+  } ,[borrowableBooks, user._id])
 
   let booksReadThisYear = 0;
 
@@ -73,8 +77,6 @@ const Dashboard: FunctionComponent<DashboardProps> = (
     )
   }
 
-  console.log('BB',borrowableBooks)
-
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
@@ -90,7 +92,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (
       removeMessage={removeMessage}
       />
     }): null}
-    {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
+    {!user.activityLog.length ?  <p className="noMessages">{`${user.name} you have no new messages`}</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
     <div className="progressSection">
       <ProgressBar completed={user.books && user.books.length > 0 ? 
@@ -116,6 +118,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (
                     handleClosePopOut={setBookClicked}
                     fromDashboard={true}
                     getSelectedFriend={getSelectedFriend}
+                    updateAvailableBooks={updateAvailableBooks}
                     />}
                     
   </>

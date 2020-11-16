@@ -8,7 +8,7 @@ interface Book {
   availableToBorrow: boolean | undefined;
   genre: string | undefined;
   star: boolean | undefined;
-  _id: string | undefined;
+  _id?: string | undefined;
   book?: Book;
   friendName?: string;
 }
@@ -53,6 +53,11 @@ interface BorrowableBook {
   book: Book;
 }
 
+interface NewBook {
+  book: Book;
+  user: string | null;
+}
+
 
 export type {
   Book,
@@ -61,5 +66,6 @@ export type {
   AddFriend,
   BookRequest, 
   UserInfo,
-  BorrowableBook
+  BorrowableBook,
+  NewBook
 };

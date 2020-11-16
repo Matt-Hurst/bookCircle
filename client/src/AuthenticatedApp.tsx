@@ -23,7 +23,8 @@ type AuthAppProps = {
   rejectBookReq: Function,
   removeMessage: Function,
   handleAddFriend: Function,
-  updateYearlyTarget: Function
+  updateYearlyTarget: Function,
+  addBookToBookCase: Function
 }
 
 const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
@@ -34,7 +35,8 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
   rejectBookReq, 
   removeMessage, 
   handleAddFriend,
-  updateYearlyTarget
+  updateYearlyTarget,
+  addBookToBookCase
   }) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
@@ -45,10 +47,10 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
   }
 
   async function handleBookRequest(book: Book) {
-    const result: User = await requestBook({
+    const result: any = await requestBook({
       user: user,
       book: book,
-      friendId: selectedFriend ? selectedFriend._id : undefined
+      friendId: selectedFriend ? selectedFriend._id : book._id
     })
     setSelectedFriend(result)
   }
@@ -88,7 +90,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >
-            <Search user={user} />
+            <Search user={user} addBookToBookCase={addBookToBookCase}/>
           </Route>
         </Switch>
       </main>
