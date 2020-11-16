@@ -23,9 +23,9 @@ const FriendSearchResult: FunctionComponent<FriendSearchResultProps> = ({users, 
 
   return (
     <div> 
-      {users.map(user => {
+      {users.map((user,i) => {
         return (
-          <div className="friendDiv">
+          <div className="friendDiv" key={user._id}>
             <div className="friendIconAndNameDiv">
               <BsFillPersonFill className="friendIcon" />
               <h3>{user.name}</h3>

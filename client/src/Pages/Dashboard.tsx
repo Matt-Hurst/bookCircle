@@ -28,8 +28,9 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
   return (
   <>
     <h1 className='dashboardHeader'>Recent activity:</h1>
-    {user.activityLog.map((activity:any) => {
+    {user.activityLog.map((activity:any, i) => {
     return <Message 
+      key={activity._id}
       activity={activity} 
       confirmFriend={confirmFriend} 
       userId={userId} 

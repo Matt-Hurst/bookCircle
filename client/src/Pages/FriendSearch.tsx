@@ -16,7 +16,6 @@ const FriendSearch: FunctionComponent<FriendSearchProps> = ({handleAddFriend, us
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: any = await searchFriend(searchName);
-    console.log('RESULT', result)
     setSearchName('');
     setSearchResults(result)
     setIsSearch(true)
@@ -36,7 +35,7 @@ const FriendSearch: FunctionComponent<FriendSearchProps> = ({handleAddFriend, us
           <button className="searchBtn">search</button>
         </div>
       </form>
-    { isSearch && <FriendSearchResult users={searchResults} handleAddFriend={handleAddFriend} user={user}/>
+    { isSearch && <FriendSearchResult users={searchResults} handleAddFriend={handleAddFriend} user={user} />
   }
     </div>
   )

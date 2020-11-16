@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useState } from "react";
 import { Book } from '../Interfaces'
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiFillCloseCircle } from "react-icons/ai";
 import './FriendsBook.scss'
 
 type FriendsBookProps = {
   clickedBook: Book,
   handleBookRequest: Function,
+  handleClosePopOut: Function
 }
-const FriendsBook:FunctionComponent<FriendsBookProps>  = ({clickedBook, handleBookRequest}) => {
+const FriendsBook:FunctionComponent<FriendsBookProps>  = ({clickedBook, handleBookRequest, handleClosePopOut}) => {
   const [buttonText, setButtonText] = useState('request book')
 
 
@@ -15,11 +16,16 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = ({clickedBook, handleBo
     handleBookRequest(clickedBook)
     setButtonText('requested')
   }
+
+  const handleCloseClick = (): void => {
+    handleClosePopOut()
+  }
   
   return (
     <div className="friendsBookClickedDiv">
       <div className="friendsBookPopOutDiv">
         {/* add cancel icon top right of pop out */}
+        <AiFillCloseCircle onClick={handleCloseClick} className="FriendsBookEscapeButton"/>
         <div className="SelectedBookDisplayDiv">
           <img src={clickedBook.imageUrl} alt=""/>
           {clickedBook.star && <AiFillStar className="SelectedBookStar" />}

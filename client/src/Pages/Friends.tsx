@@ -26,7 +26,7 @@ const Friends = ({user,  getSelectedFriend}: myProps) => {
     </header>
       <div className="friendsDiv">
         {user && user.friends?.map(friend => {
-          return <Friend friendId={friend}  getSelectedFriend={getSelectedFriend} />
+          return <Friend friendId={friend}  getSelectedFriend={getSelectedFriend} key={friend}/>
         })}
       </div>
     </>

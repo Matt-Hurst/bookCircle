@@ -41,7 +41,7 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
   }
 
   return (
-    <div className="messageContainer">
+    <div className="messageContainer"> 
       <p>{activity.message}</p>
       {activity.type === 'friendRequest' && 
         <div>

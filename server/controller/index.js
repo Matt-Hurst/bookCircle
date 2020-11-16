@@ -221,7 +221,6 @@ exports.acceptBookRequestCtrl = async (req, res) => {
 }
 
 exports.rejectBookRequestCtrl = async (req, res) => {
-  console.log(req.body, 'ASIJFHAIUHFDASIJFH')
   try {
     const {createdAt, userId, senderId, book} = req.body
     

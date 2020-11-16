@@ -27,19 +27,22 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
     setClickedBook(book)
   }
 
-  function handleUserBookClick(book:Book) {
-    console.log('CLICKED BOOK USER LIBRARY')
+  function handleUserBookClick(book:Book) : void {
     setClickedBook(book)
+    console.log('EXIT')
   }
   
-  
+  function handleClosePopOut(): void {
+    setClickedBook(undefined);
+  }
+   
   return (
     <div className="bookCase">
-      {clickedBook && <FriendsBook handleBookRequest={props.handleBookRequest} clickedBook={clickedBook} />}
+      {clickedBook && <FriendsBook handleClosePopOut={handleClosePopOut} handleBookRequest={props.handleBookRequest} clickedBook={clickedBook} />}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
       {/* <h2 className="bookCaseH2">{selectedBooks}</h2>  */}
-      <select onChange={handleChange} id="filterBooks">
-        <option selected value="all">All Books</option>
+      <select defaultValue="all" onChange={handleChange} id="filterBooks">
+        <option value="all">All Books</option>
         <option value="borrow">Available to Borrow</option>
         <option value="star">Must Reads</option>
         <option value="fiction">Fiction</option>

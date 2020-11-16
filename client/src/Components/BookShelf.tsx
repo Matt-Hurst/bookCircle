@@ -13,7 +13,7 @@ const BookShelf: FunctionComponent<BookShelfProps> = ({books, getSelectedFriend,
   return (
     <>
     <div className="bookShelf">
-      {books && books.map(book => <BookDisplay key={book._id} book={book} handleBookClicked={handleBookClicked} />
+      {books && books.map((book, i) => <BookDisplay key={i} book={book} handleBookClicked={handleBookClicked} />
       )}
     </div>
     </>
