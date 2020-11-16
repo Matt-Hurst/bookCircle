@@ -61,7 +61,14 @@ exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publi
 exports.searchUsersCtrl = async (req, res) => {
   const { name } = req.params
   try {
-    result = await User.find({name: name}, 'name _id').exec() // TODO: make regex so get all names similar
+    // result = await User.find({name: name}, 'name _id').exec() 
+    result = await User.find(
+      {
+      name: {
+        $regex: name,
+        $options: "i"
+      }
+    }, 'name _id').exec() 
     res.send(result)
   } catch (error) {
     console.error('ERROR', error)

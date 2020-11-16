@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { Book } from '../Interfaces';
+import { Book, BorrowableBook } from '../Interfaces';
 import { AiFillStar } from "react-icons/ai";
 import './Book.scss'
 
 
 type BookProps = {
-  book: Book | undefined,
+  book: any,
   handleBookClicked: Function
 }
 

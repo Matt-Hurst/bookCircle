@@ -9,6 +9,7 @@ interface Book {
   genre: string | undefined;
   star: boolean | undefined;
   _id: string | undefined;
+  book?: Book;
 }
 
 interface User {
@@ -45,11 +46,17 @@ interface UserInfo {
   name: string;
 }
 
+interface BorrowableBook {
+  name: string;
+  book: Book;
+}
+
 export type {
   Book,
   User,
   ActivityLog,
   AddFriend,
   BookRequest, 
-  UserInfo
+  UserInfo,
+  BorrowableBook
 };

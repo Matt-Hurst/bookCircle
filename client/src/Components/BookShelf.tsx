@@ -1,20 +1,22 @@
 import React, { FunctionComponent } from 'react';
 import BookDisplay from './Book';
-import { Book } from '../Interfaces';
+import { Book, BorrowableBook } from '../Interfaces';
 import './BookShelf.scss'
 
 type BookShelfProps = {
-  books: Array<Book> | null,
+  books: (Book | BorrowableBook)[] | null,
+  fromDashboard?: Boolean,
   getSelectedFriend?: Function,
   handleBookClicked: Function
 }
 
-const BookShelf: FunctionComponent<BookShelfProps> = ({books, getSelectedFriend, handleBookClicked}) => {
+const BookShelf: FunctionComponent<BookShelfProps> = ({books, getSelectedFriend, handleBookClicked, fromDashboard}) => {
   return (
     <>
     <div className="bookShelf">
-      {books && books.map((book, i) => <BookDisplay key={i} book={book} handleBookClicked={handleBookClicked} />
-      )}
+      {(fromDashboard && books) ? books.map((book, i) => <BookDisplay key={i} book={book.book} handleBookClicked={handleBookClicked}/>   ): null   }
+       {(!fromDashboard && books) && books.map((book, i) => <BookDisplay key={i} book={book} handleBookClicked={handleBookClicked} /> )}
+    
     </div>
     </>
   )

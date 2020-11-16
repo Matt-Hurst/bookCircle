@@ -1,6 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import Message from "../Components/Message"
+import BookShelf from "../Components/BookShelf"
 import { User } from '../Interfaces'
+import { getAvailableBooks } from "../ApiService/serverApiService"
 import './Dashboard.scss'
 
 /* TODO:
@@ -21,11 +23,24 @@ type DashboardProps = {
 }
 
 const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, rejectFriendRequest, confirmBookReq, rejectBookReq, removeMessage}) => {
-  
-  // TODO:function to look through each book, if book year === current year, add to count
+  const [borrowableBooks, setBorrowableBooks] = useState(null)
 
+
+  // TODO:function to look through each book, if book year === current year, add to count
+  async function getAllAvailableBooks (id:string | null) {
+    const result = await getAvailableBooks(id)
+    setBorrowableBooks(result)
+  }
+
+  function availableBookClicked (book: any) {
+    console.log(book)
+  }
   // TODO: get all available books to borrow
   const userId = user._id
+
+  useEffect( () => {
+    getAllAvailableBooks(user._id)
+  } ,[])
 
   return (
   <>
@@ -44,7 +59,8 @@ const Dashboard: FunctionComponent<DashboardProps> = ({user, confirmFriend, reje
     }): null}
     {!user.activityLog.length ?  <p className="noMessages">no new messages</p> : null}
     <h1 className='dashboardHeader'>Goal progress:</h1>
-    <h1 className='dashboardHeader'>Friends books available to borrow:</h1>
+    <h1 className='dashboardHeader'>All available book:</h1>
+    <BookShelf books={borrowableBooks} handleBookClicked={availableBookClicked} fromDashboard={true}/>
   </>
   )
 }

@@ -57,6 +57,11 @@ async function rejectFriend(activity: ActivityLog): Promise<Object> {
   return result;
 }
 
+async function getAvailableBooks(id: string |null) {
+  return await fetch(URL+'availableBooks/'+id)
+    .then(response => response.json())
+}
+
 async function requestBook(obj: BookRequest): Promise<User> {
   const result = await fetch(URL+'requestBook', {
     method: 'POST',
@@ -115,5 +120,6 @@ export {
   rejectBookRequest,
   deleteMessage,
   searchFriend,
-  addFriend
+  addFriend,
+  getAvailableBooks
 }
