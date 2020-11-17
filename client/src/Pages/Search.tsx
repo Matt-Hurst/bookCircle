@@ -22,6 +22,7 @@ interface userInput {
   review: string | undefined;
   availableToLend: boolean | undefined;
   star: boolean | undefined;
+  genre: string | undefined;
 }
 
 const Search = ({user, addBookToBookCase}: myProps) => {
@@ -35,6 +36,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     review: '',
     availableToLend: false,
     star: false,
+    genre: '',
   });
   const [questionSetion, setQuestionSection] = useState(1)
 
@@ -73,7 +75,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     setBookClicked(newBook)
   }
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, word: string) => {
+  const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, word: string) => {
     if (word === 'date') {
       setUserInput(prevUserInput => {
         return {
@@ -94,6 +96,14 @@ const Search = ({user, addBookToBookCase}: myProps) => {
         ...prevUserInput,
         availableToLend: !prevUserInput.availableToLend
       }})
+    }
+    if (word === 'genre') {
+      setUserInput(prevUserInput => {
+        return {
+          ...prevUserInput,
+          genre: e.target.value
+        }
+      })
     }
     if (word === 'star') {
       setUserInput(prevUserInput => {
@@ -126,7 +136,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
         dateRead: userInput.date,
         review: userInput.review,
         availableToBorrow: userInput.availableToLend,
-        genre: bookClicked?.genre,
+        genre: userInput.genre,
         star: userInput.star 
       },
       user: user.name
@@ -139,6 +149,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
       review: undefined,
       availableToLend: false,
       star: false,
+      genre: '',
     });
     setQuestionSection(1);
   }
@@ -152,11 +163,11 @@ const Search = ({user, addBookToBookCase}: myProps) => {
         <div className="addBookPopOutDiv">
           {questionSetion === 1 && <div className="addBookPopOutForm">
             <h2>When did you read this book?</h2>
-            <input type="date" value={userInput.date} onChange={(e) => handleDateChange(e, 'date')}/>
+            <input type="date" value={userInput.date} onChange={(e) => handleDataChange(e, 'date')}/>
             <div className="addBookPopOutFormBtns">
               <button onClick={moveToPreviousQuestion}>back</button>
               <button onClick={() => {
-                if (userInput.date) {
+                if (userInput.date && userInput.date !== 1) {
                   moveToNextQuestion()
                 }
               }
@@ -165,7 +176,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
           </div>}
           {questionSetion === 2 && <div className="addBookPopOutForm">
             <h2>What did you think?</h2>
-            <input className="addBookReviewInput" type="text" value={userInput.review} onChange={(e) => handleDateChange(e, 'review')}/>
+            <input className="addBookReviewInput" type="text" value={userInput.review} onChange={(e) => handleDataChange(e, 'review')}/>
             <div className="addBookPopOutFormBtns">
               <button onClick={moveToPreviousQuestion}>back</button>
               <button onClick={() => {
@@ -180,7 +191,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
             <h2>Are you willing and able to lend this book to friends?</h2>
             <div>
               <div className="checkboxDiv">
-                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'lend')}/>
+                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDataChange(e, 'lend')}/>
                 <label htmlFor="yes">I'm happy to lend this book</label>
               </div>
               <div className="addBookPopOutFormBtns">
@@ -190,10 +201,36 @@ const Search = ({user, addBookToBookCase}: myProps) => {
             </div>
           </div>}
           {questionSetion === 4 && <div className="addBookPopOutForm">
+            <h2>What genre was this book?</h2>
+            <div>
+              <div className="checkboxDiv">
+                <select defaultValue="fiction" id="pickGenre" onChange={(e) => handleDataChange(e, 'genre')}>
+                  <option value="fiction">Fiction</option>
+                  <option value="fiction">Non-Fiction</option>
+                  <option value="crime">Crime & Thriller</option>
+                  <option value="science fiction">Science Fiction</option>
+                  <option value="fantasy">Fantasy</option>
+                  <option value="action & adventure">Action & Adventure</option>
+                  <option value="politics & history">Politics & History</option>
+                  <option value="romance">Romance</option>
+                  <option value="comedy">Comedy</option>
+                  <option value="science & technology">Science & Technology</option>
+                  <option value="biography">Biography</option>
+                  <option value="arts & culture">Arts & Culture</option>
+                  <option value="self-improvement">Self-Improvement</option>
+                </select>
+              </div>
+              <div className="addBookPopOutFormBtns">
+                <button onClick={moveToPreviousQuestion}>back</button>
+                <button onClick={moveToNextQuestion}>next</button>
+              </div>
+            </div>
+          </div>}
+          {questionSetion === 5 && <div className="addBookPopOutForm">
             <h2>Did this book change your life? Is it a must read? Check the below to mark it as a star read.</h2>
             <div>
               <div className="checkboxDiv">
-                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDateChange(e, 'star')}/>
+                <input className="addBookReviewInputRadio" type="checkbox" id='yes' value='yes' onChange={(e) => handleDataChange(e, 'star')}/>
                 <label htmlFor="yes">star read</label>
               </div>
               <div className="addBookPopOutFormBtns">
