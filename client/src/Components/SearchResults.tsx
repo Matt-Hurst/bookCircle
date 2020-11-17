@@ -1,25 +1,33 @@
-import React from "react"
+import React, { FunctionComponent } from "react"
+import { Book } from "../Interfaces"
 import './SearchResults.scss'
 
 // TODO: make image of book clickable, bringing up a bigger image component and greying out background
 
-type Book = {
+type Title = {
   volumeInfo: Object
 }
 
-interface myProps {
-  titles: Array<Book>
-  handleBookClick : any
+type SearchResultsProps = {
+  titles: Array<Title>,
+  handleBookClick : any,
+  userLibrary: any,
 }
 
-const SearchResults = (props: myProps) => {
-  const titles = props.titles;
-  const handleBookClick = props.handleBookClick;
+const SearchResults: FunctionComponent<SearchResultsProps> = ({titles, handleBookClick, userLibrary}) => {
+
 
   const searchResults: Array<any> = [];
     titles.forEach(title => {
         searchResults.push(title.volumeInfo)
     })
+
+  const library: Array<string | undefined> = [];
+  for (let i = 0; i < userLibrary.length; i++) {
+    library.push(userLibrary[i].title)
+  }
+
+    console.log('userLibrary',userLibrary)
 
    return (
       <div>{searchResults.map((result, i) => {
@@ -32,7 +40,8 @@ const SearchResults = (props: myProps) => {
           { result.authors ? <h3 className="searchBookAuthor">by {result.authors.join(' & ')}</h3> : null}
                 </div>
               {result.categories ? <h2 className="searchBookGenre">{result.categories[0]}</h2> : <div style={{height: '23px'}}></div>}
-              <button className="searchAddBookBtn" onClick={() => {
+              {!(library.includes(result.title)) && 
+                <button className="searchAddBookBtn" onClick={() => {
                 handleBookClick({
                   title: result.title,
                   authors: result.authors,
@@ -40,7 +49,7 @@ const SearchResults = (props: myProps) => {
                   genre: result.categories ? result.categories[0] : undefined
                 }) 
               }}
-              >add to bookcase</button>
+              >add to bookcase</button>}
               </div>
           </div>
           )

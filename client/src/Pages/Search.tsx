@@ -24,17 +24,6 @@ interface userInput {
   star: boolean | undefined;
 }
 
-// interface book {
-//   title: string | undefined;
-//   authors: string[] | undefined;
-//   imageUrl: string | undefined;
-//   dateRead: string | undefined;
-//   review: string | undefined;
-//   availableToBorrow: boolean | undefined;
-//   genre: string | undefined;
-//   star: boolean | undefined; 
-// }
-
 const Search = ({user, addBookToBookCase}: myProps) => {
   const [search, setSearch] = useState('');
   const [placeholder, setPlaceholder] = useState('title'); 
@@ -227,7 +216,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
         <button className={placeholder === 'title' ? "selectedSearchMethod" : "otherSearchMethod"} id="bookTitleBtn" onClick={handleTitleClick}>book title</button>
         <button className={placeholder === 'author' ? "selectedSearchMethod" : "otherSearchMethod"} id="authorBtn" onClick={handleAuthorClick}>author</button>
       </div>
-    { isSearch && <SearchResults titles={titles} handleBookClick={handleBookClick} />}
+    { isSearch && <SearchResults titles={titles} handleBookClick={handleBookClick} userLibrary={user.books}/>}
     </div>
   )
 }
