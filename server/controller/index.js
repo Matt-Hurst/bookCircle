@@ -291,26 +291,6 @@ exports.editBookCtrl = async (req, res) => {
       $push : { books: newBook}
     }, {new: true})
     res.send(result)
-    // await User.updateOne({
-    //   _id: userId, books: { $elemMatch: { id: bookId}}
-    // },
-    // { 
-    //   $set: {
-    //   "$elemMatch.authors" : newBook.authors, 
-    //   "$elemMatch.availableToBorrow" : newBook.availableToBorrow, 
-    //   "$elemMatch.dateRead" : newBook.dateRead,
-    //   "$elemMatch.genre" : newBook.genre, 
-    //   "$elemMatch.id" : newBook.id, 
-    //   "$elemMatch.imageUrl" : newBook.imageUrl, 
-    //   "$elemMatch.review" : newBook.review,
-    //   "$elemMatch.star" : newBook.star, 
-    //   "$elemMatch.title" : newBook.title, 
-    //   }
-    // // $set: {'$elemMatch': newBook}
-    // }
-    // )
-    // const result = await User.findById(userId)
-    // res.send(result)
   } catch (error) {
     console.error('ERROR', error)
   }

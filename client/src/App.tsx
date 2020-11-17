@@ -78,6 +78,7 @@ function App() {
   const removeBookFromBookCase = async (userId: string, bookId: string) => {
     const result: any = await deleteBook(userId, bookId);
     setUserLoggedIn(result)
+    console.log('App',result)
   }
 
   return (

@@ -1,0 +1,83 @@
+$primary-color: #DA291C;
+$primary-dark: #1C191A;
+$background-color: #F6E7D8;
+
+
+.EditBookPopOutDiv {
+  display: flex;
+  position: absolute;
+  border: 5px solid $primary-dark;
+  border-radius: 10px;
+  background-color: $background-color;
+  max-height: 70vh;
+  min-height: 70vh;
+  min-width: 90vw;
+  max-width: 90vw;
+  align-items: center;
+  z-index: 2;
+
+  .EditBookH1 { margin-bottom: 2rem;}
+
+  .EditBookPopOutContainer {
+    display: flex;
+
+    flex-direction: column;
+  }
+
+  .EditOptionContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  h2 {
+    margin: 1rem;
+  }
+
+  textarea {
+    height: 80px;
+    width: 50vw;
+  }
+
+  select {
+    height: 30px;
+    margin-left: 1rem;
+  }
+
+  .star,
+  .notStar,
+  .saveChanges,
+  .deleteBtn {
+    margin: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 0rem;
+    width: 4rem;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  .starReadBtnsDiv {
+    display: flex;
+  }
+  .star {
+    background-color: $primary-color;
+    color: $background-color;
+  }
+  .notStar {
+    background-color: $primary-dark;
+    color: $background-color;
+  }
+
+  .EditActionBtns {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .saveChanges {
+    background-color: green;
+    width: 50vw;
+  }
+
+  .deleteBtn {
+    background-color: red;
+  }
+}

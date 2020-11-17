@@ -77,7 +77,7 @@ async function deleteBook(userId: string, bookId: string) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({userId, bookId})
-  })
+  }).then(response => response.json())
   return result;
 }
 

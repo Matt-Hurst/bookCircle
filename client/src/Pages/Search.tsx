@@ -37,7 +37,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     review: '',
     availableToLend: false,
     star: false,
-    genre: '',
+    genre: 'fiction',
   });
   const [questionSetion, setQuestionSection] = useState(1)
 
@@ -56,8 +56,13 @@ const Search = ({user, addBookToBookCase}: myProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await getBook(search);
-    setSearch('');
+    try {
+      await getBook(search);
+      setSearch('');
+    } catch (error) {
+      console.error(error)
+      alert("Oops, that didn't work, please try again")
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,9 +223,9 @@ const Search = ({user, addBookToBookCase}: myProps) => {
             <h2>What genre was this book?</h2>
             <div>
               <div className="checkboxDiv">
-                <select defaultValue="fiction" id="pickGenre" onChange={(e) => handleDataChange(e, 'genre')}>
+                <select id="pickGenre" onChange={(e) => handleDataChange(e, 'genre')}>
                   <option value="fiction">Fiction</option>
-                  <option value="fiction">Non-Fiction</option>
+                  <option value="non-fiction">Non-Fiction</option>
                   <option value="crime">Crime & Thriller</option>
                   <option value="science fiction">Science Fiction</option>
                   <option value="fantasy">Fantasy</option>

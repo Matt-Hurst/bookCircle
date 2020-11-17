@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Book, User } from '../Interfaces'
 import { AiFillStar, AiFillCloseCircle } from "react-icons/ai";
-// import { IoIosCheckmarkCircle } from "react-icons/io";
+import EditBook from '../Components/EditBook'
+
 
 import './UserBook.scss'
 
@@ -11,7 +12,7 @@ type UserBookProps = {
   updateAvailableBooks?: Function,
   user: User,
   removeBookFromBookCase: Function,
-  setClickedBook: Function
+  setClickedBook: Function,
 }
 const UserBook:FunctionComponent<UserBookProps>  = (
   {
@@ -20,14 +21,16 @@ const UserBook:FunctionComponent<UserBookProps>  = (
     updateAvailableBooks,
     user,
     removeBookFromBookCase,
-    setClickedBook
+    setClickedBook,
   }) => {
   const [buttonText, setButtonText] = useState('request book')
+  const [editBook, setEditBook] = useState<boolean>(false)
 
     console.log('Clicked Book', clickedBook, 'User', user)
-  const handleClick = async () => {
-    await removeBookFromBookCase(user._id, clickedBook.id)
-    setClickedBook(undefined)
+  const handleEditClick = async () => {
+    // await removeBookFromBookCase(user._id, clickedBook.id)
+    // setClickedBook(undefined)
+    setEditBook(true)
   }
 
   const handleCloseClick = (): void => {
@@ -38,6 +41,15 @@ const UserBook:FunctionComponent<UserBookProps>  = (
   
   return (
     <div className="UserBookClickedDiv">
+      {editBook && 
+        <EditBook 
+          book={clickedBook} 
+          deleteFunc={removeBookFromBookCase} 
+          update={()=>{}} 
+          setEditBook={setEditBook}
+          userId={user._id}
+          setClickedBook={setClickedBook}
+        />}
       <div className="UserBookPopOutDiv">
         <AiFillCloseCircle onClick={handleCloseClick} className="UserBookEscapeButton"/>
 
@@ -53,7 +65,7 @@ const UserBook:FunctionComponent<UserBookProps>  = (
           <h3>{clickedBook.genre}</h3>
           <p>{`Read ${clickedBook.dateRead}`}</p>
           <p>{clickedBook.availableToBorrow ? `Available to Borrow` : `Unavailable to Borrow`}</p>
-          <button className="editBookBtn" onClick={handleClick}>edit</button>
+          <button className="editBookBtn" onClick={handleEditClick}>edit</button>
         </div>
       </div>
     </div>
