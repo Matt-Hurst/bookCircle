@@ -120,7 +120,6 @@ const Dashboard: FunctionComponent<DashboardProps> = (
       <FriendsBook  clickedBook={bookClicked} 
                     handleBookRequest={handleBookRequest} 
                     handleClosePopOut={setBookClicked}
-                    fromDashboard={true}
                     getSelectedFriend={getSelectedFriend}
                     updateAvailableBooks={updateAvailableBooks}
                     />}

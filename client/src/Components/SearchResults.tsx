@@ -27,8 +27,6 @@ const SearchResults: FunctionComponent<SearchResultsProps> = ({titles, handleBoo
     library.push(userLibrary[i].title)
   }
 
-    console.log('userLibrary',userLibrary)
-
    return (
       <div>{searchResults.map((result, i) => {
           return (

@@ -7,7 +7,6 @@ type FriendsBookProps = {
   clickedBook: Book,
   handleBookRequest: Function,
   handleClosePopOut: Function,
-  fromDashboard: boolean,
   getSelectedFriend?: Function,
   updateAvailableBooks?: Function
 }
@@ -16,7 +15,6 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = (
     clickedBook, 
     handleBookRequest, 
     handleClosePopOut, 
-    fromDashboard,
     getSelectedFriend,
     updateAvailableBooks
   }) => {

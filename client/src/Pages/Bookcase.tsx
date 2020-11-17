@@ -1,6 +1,7 @@
 import React, { useState, FunctionComponent } from 'react';
 import BookShelf from '../Components/BookShelf';
 import FriendsBook from '../Components/FriendsBook'
+import UserBook from '../Components/UserBook'
 import { User, Book } from '../Interfaces'
 import './Bookcase.scss'
 
@@ -9,14 +10,12 @@ type BookCaseProps = {
   name?: string | null,
   username: string | null,
   handleBookRequest: Function,
-  fromDashboard: boolean,
+  fromUserLibrary?: boolean,
 }
 
 const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
   const [selectedBooks, setSelectedBooks] = useState('all')
   const [clickedBook, setClickedBook] = useState<Book>()
-  // POP OUT to interact with individual books
-
   
   function handleChange (e: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedBooks(e.target.value)
@@ -37,12 +36,18 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
    
   return (
     <div className="bookCase">
-      {clickedBook && 
+      {clickedBook && props.fromUserLibrary && 
+        <UserBook 
+         clickedBook={clickedBook} 
+         handleClosePopOut={handleClosePopOut} 
+         user={props.user}
+        />
+      }
+      {clickedBook && !props.fromUserLibrary && 
         <FriendsBook 
           handleClosePopOut={handleClosePopOut} 
           handleBookRequest={props.handleBookRequest} 
           clickedBook={clickedBook} 
-          fromDashboard={props.fromDashboard}
         />}
       <h1>{props.name ? `${props.name}'s`  : 'Your'} Library:</h1>
       <select defaultValue="all" onChange={handleChange} id="filterBooks">

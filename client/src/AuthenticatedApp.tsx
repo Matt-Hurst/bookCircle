@@ -43,7 +43,6 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
   async function getSelectedFriend(name: string) {
     const user: User = await getUser(name);
     setSelectedFriend(user);
-    console.log(user)
   }
 
   async function handleBookRequest(book: Book) {
@@ -73,7 +72,12 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             />
           </Route>
           <Route path="/yourLibrary" >
-            <Bookcase username={user.name} user={user} handleBookRequest={handleBookRequest} fromDashboard={false} />
+            <Bookcase 
+              username={user.name} 
+              user={user} 
+              handleBookRequest={handleBookRequest} 
+              fromUserLibrary={true} 
+            />
           </Route>
           <Route path="/friends">
             <Friends user={user}  getSelectedFriend={getSelectedFriend}/>
@@ -86,7 +90,6 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             user={selectedFriend || user} 
             name={selectedFriend ? selectedFriend.name : null} 
             handleBookRequest={handleBookRequest}
-            fromDashboard={false}
             /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >

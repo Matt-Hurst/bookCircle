@@ -26,7 +26,7 @@ function App() {
   // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
-    getUserData('Mo')
+    getUserData('Matt')
   }, [])
 
   // function to add friend
@@ -71,7 +71,6 @@ function App() {
   // add book
   const addBookToBookCase = async (newbook: NewBook) => {
     const result: any = await addBook(newbook);
-    console.log(result)
     setUserLoggedIn({...userLoggedIn, books: result})
   }
 
