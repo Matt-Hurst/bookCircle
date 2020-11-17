@@ -10,10 +10,11 @@ type EditBookProps = {
   update: Function,
   setEditBook: Function,
   userId: string | null,
-  setClickedBook: Function
+  setClickedBook: Function,
+  editBookFunc: Function
 }
 
-const EditBook: FunctionComponent<EditBookProps> = ({deleteFunc, setEditBook, book, userId, setClickedBook}) => {
+const EditBook: FunctionComponent<EditBookProps> = ({deleteFunc, setEditBook, book, userId, setClickedBook, editBookFunc}) => {
   const [updatedBook, setUpdatedBook] = useState<any>(
     {
     title: undefined,
@@ -76,8 +77,10 @@ const EditBook: FunctionComponent<EditBookProps> = ({deleteFunc, setEditBook, bo
     })
   }
 
-  const handleClick = () => {
-    console.log('UPDATED',updatedBook)
+  const handleUpdateClick = async () => {
+    await editBookFunc(userId, book.id, updatedBook)
+    setEditBook(false)
+    setClickedBook(undefined)
   }
 
   const handleDelete = async () => {
@@ -96,7 +99,6 @@ const EditBook: FunctionComponent<EditBookProps> = ({deleteFunc, setEditBook, bo
     setClickedBook(undefined)
   }
 
-  console.log('BOOK', book)
   return(
     <div className="EditBookPopOutDiv">
       {book && <div className="EditBookPopOutContainer">
@@ -148,7 +150,7 @@ const EditBook: FunctionComponent<EditBookProps> = ({deleteFunc, setEditBook, bo
           <input type="date" value={updatedBook ? updatedBook.dateRead : ''} onChange={handleDateChange}/>
         </div>
         <div className="EditActionBtns">
-          <button className="saveChanges" onClick={handleClick}>save</button>
+          <button className="saveChanges" onClick={handleUpdateClick}>save</button>
           <button className="deleteBtn" onClick={handleDelete}>delete</button>
         </div>
       </div>}

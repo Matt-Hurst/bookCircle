@@ -81,6 +81,17 @@ async function deleteBook(userId: string, bookId: string) {
   return result;
 }
 
+async function updateBook(userId: string, bookId: string, newBook: Book) {
+  const result = await fetch(URL+'editBook', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({userId, bookId, newBook})
+  }).then(response => response.json())
+  return result;
+}
+
 async function getAvailableBooks(id: string |null) {
   return await fetch(URL+'availableBooks/'+id)
     .then(response => response.json())
@@ -159,5 +170,6 @@ export {
   addFriend,
   getAvailableBooks,
   updateTarget,
-  deleteBook
+  deleteBook,
+  updateBook
 }

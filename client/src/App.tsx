@@ -11,9 +11,10 @@ import {
   addFriend,
   updateTarget,
   addBook,
-  deleteBook
+  deleteBook,
+  updateBook
   } from './ApiService/serverApiService'
-import { ActivityLog, User, AddFriend, BookRequest, NewBook } from './Interfaces'
+import { ActivityLog, User, AddFriend, BookRequest, NewBook, Book } from './Interfaces'
 import './App.scss';
 
 function App() {
@@ -78,7 +79,11 @@ function App() {
   const removeBookFromBookCase = async (userId: string, bookId: string) => {
     const result: any = await deleteBook(userId, bookId);
     setUserLoggedIn(result)
-    console.log('App',result)
+  }
+
+  const editBook = async (userId: string, bookId: string, newBook: Book) => {
+    const result: any = await updateBook(userId, bookId, newBook)
+    setUserLoggedIn(result)
   }
 
   return (
@@ -95,6 +100,7 @@ function App() {
     updateYearlyTarget={updateYearlyTarget}
     addBookToBookCase={addBookToBookCase}
     removeBookFromBookCase={removeBookFromBookCase}
+    editBook={editBook}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>

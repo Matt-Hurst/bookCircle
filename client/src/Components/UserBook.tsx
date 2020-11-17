@@ -13,6 +13,7 @@ type UserBookProps = {
   user: User,
   removeBookFromBookCase: Function,
   setClickedBook: Function,
+  editBookFunc: Function
 }
 const UserBook:FunctionComponent<UserBookProps>  = (
   {
@@ -22,6 +23,7 @@ const UserBook:FunctionComponent<UserBookProps>  = (
     user,
     removeBookFromBookCase,
     setClickedBook,
+    editBookFunc
   }) => {
   const [buttonText, setButtonText] = useState('request book')
   const [editBook, setEditBook] = useState<boolean>(false)
@@ -49,6 +51,7 @@ const UserBook:FunctionComponent<UserBookProps>  = (
           setEditBook={setEditBook}
           userId={user._id}
           setClickedBook={setClickedBook}
+          editBookFunc={editBookFunc}
         />}
       <div className="UserBookPopOutDiv">
         <AiFillCloseCircle onClick={handleCloseClick} className="UserBookEscapeButton"/>
