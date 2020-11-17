@@ -8,7 +8,7 @@ interface Book {
   availableToBorrow: boolean | undefined;
   genre: string | undefined;
   star: boolean | undefined;
-  _id?: string | undefined;
+  id?: string | undefined;
   book?: Book;
   friendName?: string;
 }

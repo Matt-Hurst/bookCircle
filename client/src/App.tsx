@@ -10,7 +10,8 @@ import {
   deleteMessage,
   addFriend,
   updateTarget,
-  addBook
+  addBook,
+  deleteBook
   } from './ApiService/serverApiService'
 import { ActivityLog, User, AddFriend, BookRequest, NewBook } from './Interfaces'
 import './App.scss';
@@ -73,6 +74,11 @@ function App() {
     const result: any = await addBook(newbook);
     setUserLoggedIn({...userLoggedIn, books: result})
   }
+  
+  const removeBookFromBookCase = async (userId: string, bookId: string) => {
+    const result: any = await deleteBook(userId, bookId);
+    setUserLoggedIn(result)
+  }
 
   return (
     <div>
@@ -87,6 +93,7 @@ function App() {
     handleAddFriend={handleAddFriend}
     updateYearlyTarget={updateYearlyTarget}
     addBookToBookCase={addBookToBookCase}
+    removeBookFromBookCase={removeBookFromBookCase}
     />}
     { !userLoggedIn && <UnauthenticatedApp />}
    </div>

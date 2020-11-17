@@ -9,20 +9,25 @@ type UserBookProps = {
   clickedBook: Book,
   handleClosePopOut: Function,
   updateAvailableBooks?: Function,
-  user: User
+  user: User,
+  removeBookFromBookCase: Function,
+  setClickedBook: Function
 }
 const UserBook:FunctionComponent<UserBookProps>  = (
   {
     clickedBook, 
     handleClosePopOut, 
     updateAvailableBooks,
-    user
+    user,
+    removeBookFromBookCase,
+    setClickedBook
   }) => {
   const [buttonText, setButtonText] = useState('request book')
 
-
+    console.log('Clicked Book', clickedBook, 'User', user)
   const handleClick = async () => {
-    console.log('clicked in UserBook')
+    await removeBookFromBookCase(user._id, clickedBook.id)
+    setClickedBook(undefined)
   }
 
   const handleCloseClick = (): void => {
@@ -48,7 +53,7 @@ const UserBook:FunctionComponent<UserBookProps>  = (
           <h3>{clickedBook.genre}</h3>
           <p>{`Read ${clickedBook.dateRead}`}</p>
           <p>{clickedBook.availableToBorrow ? `Available to Borrow` : `Unavailable to Borrow`}</p>
-          {/* <button className="editBookBtn" onClick={handleClick}>edit</button> */}
+          <button className="editBookBtn" onClick={handleClick}>edit</button>
         </div>
       </div>
     </div>

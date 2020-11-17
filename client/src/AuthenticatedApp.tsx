@@ -24,7 +24,8 @@ type AuthAppProps = {
   removeMessage: Function,
   handleAddFriend: Function,
   updateYearlyTarget: Function,
-  addBookToBookCase: Function
+  addBookToBookCase: Function,
+  removeBookFromBookCase: Function
 }
 
 const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
@@ -36,7 +37,8 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
   removeMessage, 
   handleAddFriend,
   updateYearlyTarget,
-  addBookToBookCase
+  addBookToBookCase,
+  removeBookFromBookCase
   }) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
@@ -49,7 +51,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
     const result: any = await requestBook({
       user: user,
       book: book,
-      friendId: selectedFriend ? selectedFriend._id : book._id
+      friendId: selectedFriend ? selectedFriend._id : book.id
     })
     setSelectedFriend(result)
   }
@@ -76,7 +78,8 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
               username={user.name} 
               user={user} 
               handleBookRequest={handleBookRequest} 
-              fromUserLibrary={true} 
+              fromUserLibrary={true}
+              removeBookFromBookCase={removeBookFromBookCase} 
             />
           </Route>
           <Route path="/friends">
@@ -90,6 +93,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             user={selectedFriend || user} 
             name={selectedFriend ? selectedFriend.name : null} 
             handleBookRequest={handleBookRequest}
+            removeBookFromBookCase={removeBookFromBookCase} 
             /> {/* TODO: cheated typescript here - need to refactor - shouldn't be passing user data down */}
           </Route>
           <Route path="/search" >

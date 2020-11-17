@@ -274,13 +274,56 @@ exports.getAvailableBooksCtrl = async (req,res) => {
           })
         }
     })
-
   }
   res.send(result)
-
-    
   } catch (error) {
     console.error('ERROR', error)
-    
+  }
+}
+
+exports.editBookCtrl = async (req, res) => {
+  try {
+    const { userId, bookId, newBook} = req.body
+    await User.findByIdAndUpdate(userId, {
+      $pull : { books: {id: bookId} }
+    });
+    const result = await User.findByIdAndUpdate(userId, {
+      $push : { books: newBook}
+    }, {new: true})
+    res.send(result)
+    // await User.updateOne({
+    //   _id: userId, books: { $elemMatch: { id: bookId}}
+    // },
+    // { 
+    //   $set: {
+    //   "$elemMatch.authors" : newBook.authors, 
+    //   "$elemMatch.availableToBorrow" : newBook.availableToBorrow, 
+    //   "$elemMatch.dateRead" : newBook.dateRead,
+    //   "$elemMatch.genre" : newBook.genre, 
+    //   "$elemMatch.id" : newBook.id, 
+    //   "$elemMatch.imageUrl" : newBook.imageUrl, 
+    //   "$elemMatch.review" : newBook.review,
+    //   "$elemMatch.star" : newBook.star, 
+    //   "$elemMatch.title" : newBook.title, 
+    //   }
+    // // $set: {'$elemMatch': newBook}
+    // }
+    // )
+    // const result = await User.findById(userId)
+    // res.send(result)
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
+exports.deleteBook = async (req, res) => {
+  try {
+    const {userId, bookId} = req.body
+    const result = await User.findByIdAndUpdate(userId, {
+      $pull : { books: {id: bookId} }
+    }, {new: true})
+    res.send(result)
+  } catch (error) {
+    console.error('ERROR', error)
   }
 }

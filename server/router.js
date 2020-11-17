@@ -14,7 +14,9 @@ const {
    acceptBookRequestCtrl,
    rejectBookRequestCtrl,
    searchUsersCtrl,
-   getAvailableBooksCtrl
+   getAvailableBooksCtrl,
+   editBookCtrl,
+   deleteBook
    } = require('./controller')
 
 router.get('/', getCtrl)
@@ -35,6 +37,8 @@ router.post('/requestBook', requestBookCtrl)
 router.post('/acceptBookRequest', acceptBookRequestCtrl)
 router.post('/rejectBookRequest', rejectBookRequestCtrl)
 router.get('/availableBooks/:userId', getAvailableBooksCtrl)
+router.put('/editBook', editBookCtrl)
+router.delete('/deleteBook', deleteBook )
 
 // ROUTES REQUIRED TODO:
 

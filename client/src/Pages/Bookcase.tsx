@@ -11,6 +11,7 @@ type BookCaseProps = {
   username: string | null,
   handleBookRequest: Function,
   fromUserLibrary?: boolean,
+  removeBookFromBookCase: Function
 }
 
 const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
@@ -41,6 +42,8 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
          clickedBook={clickedBook} 
          handleClosePopOut={handleClosePopOut} 
          user={props.user}
+         removeBookFromBookCase={props.removeBookFromBookCase}
+         setClickedBook={setClickedBook}
         />
       }
       {clickedBook && !props.fromUserLibrary && 

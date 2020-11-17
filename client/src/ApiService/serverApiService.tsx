@@ -58,7 +58,7 @@ async function rejectFriend(activity: ActivityLog): Promise<Object> {
 }
 
 async function addBook(newbook: NewBook) {
-  const result = await fetch('http://localhost:3001/addBook', {
+  const result = await fetch(URL+'addBook', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -68,6 +68,17 @@ async function addBook(newbook: NewBook) {
     .then(response => response.json())
 
     return result
+}
+
+async function deleteBook(userId: string, bookId: string) {
+  const result = await fetch(URL+'deleteBook', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({userId, bookId})
+  })
+  return result;
 }
 
 async function getAvailableBooks(id: string |null) {
@@ -147,5 +158,6 @@ export {
   searchFriend,
   addFriend,
   getAvailableBooks,
-  updateTarget
+  updateTarget,
+  deleteBook
 }
