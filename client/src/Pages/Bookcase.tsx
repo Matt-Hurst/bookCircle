@@ -60,10 +60,18 @@ const Bookcase: FunctionComponent<BookCaseProps> = (props) => {
         <option value="borrow">Available to Borrow</option>
         <option value="star">Must Reads</option>
         <option value="fiction">Fiction</option>
-        <option value="crime">Crime</option>
+        <option value="non-fiction">Non-Fiction</option>
+        <option value="crime">Crime & Thriller</option>
         <option value="science fiction">Science Fiction</option>
         <option value="fantasy">Fantasy</option>
-        <option value="politics and history">Politics and History</option>
+        <option value="action & adventure">Action & Adventure</option>
+        <option value="politics & history">Politics & History</option>
+        <option value="romance">Romance</option>
+        <option value="comedy">Comedy</option>
+        <option value="science & technology">Science & Technology</option>
+        <option value="biography">Biography</option>
+        <option value="arts & culture">Arts & Culture</option>
+        <option value="self-improvement">Self-Improvement</option>
       </select> 
 
       {props.user.books && <BookShelf

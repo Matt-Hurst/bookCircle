@@ -19,19 +19,14 @@ const UserBook:FunctionComponent<UserBookProps>  = (
   {
     clickedBook, 
     handleClosePopOut, 
-    updateAvailableBooks,
     user,
     removeBookFromBookCase,
     setClickedBook,
     editBookFunc
   }) => {
-  const [buttonText, setButtonText] = useState('request book')
   const [editBook, setEditBook] = useState<boolean>(false)
 
-    console.log('Clicked Book', clickedBook, 'User', user)
   const handleEditClick = async () => {
-    // await removeBookFromBookCase(user._id, clickedBook.id)
-    // setClickedBook(undefined)
     setEditBook(true)
   }
 
@@ -39,7 +34,6 @@ const UserBook:FunctionComponent<UserBookProps>  = (
     handleClosePopOut()
   }
 
-  console.log(clickedBook)
   
   return (
     <div className="UserBookClickedDiv">
@@ -59,7 +53,6 @@ const UserBook:FunctionComponent<UserBookProps>  = (
         <div className="SelectedBookDisplayDiv">
           <img src={clickedBook.imageUrl} alt=""/>
           {clickedBook.star && <AiFillStar className="SelectedBookStar" />}
-          {/* {clickedBook.availableToBorrow && <IoIosCheckmarkCircle className="availableToBorrow" />} */}
         </div>
         <div className="UserBookPopOutContentContainer">
           <h3>{clickedBook.title}</h3>

@@ -44,6 +44,7 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = (
         </div>
         <div className="friendsBookPopOutContentContainer">
           {clickedBook.friendName && <h3>{`Owner: ${clickedBook.friendName}`}</h3>}
+          <h3>{clickedBook.title}</h3>
           <h3>User Review:</h3>
           <p>{clickedBook.review}</p>
           <h3>{clickedBook.genre}</h3>
