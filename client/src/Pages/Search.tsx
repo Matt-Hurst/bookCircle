@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import SearchResults from '../Components/SearchResults'
 import { User, NewBook } from '../Interfaces'
+import { AiFillCloseCircle } from "react-icons/ai";
 import './Search.scss'
 
 // TODO: add component did unmount equivalent so that bookClicked is undefined if user leaves page 
@@ -74,8 +75,7 @@ const Search = ({user, addBookToBookCase}: myProps) => {
   const handleBookClick = (newBook: any): void => {
     setBookClicked(newBook)
   }
-
-  const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, word: string) => {
+  const handleDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, word: string) => {
     if (word === 'date') {
       setUserInput(prevUserInput => {
         return {
@@ -154,13 +154,24 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     setQuestionSection(1);
   }
 
-  // TODO: put function into api file, import into this page
+  const handleCloseBtnClick = () => {
+    setBookClicked(undefined)
+    setUserInput({
+      date: 1,
+      review: '',
+      availableToLend: false,
+      star: false,
+      genre: '',
+    })
+    setQuestionSection(1)
+  }
 
   return (
     <div>
       
       {bookClicked && <div className="bookClickedDiv">
         <div className="addBookPopOutDiv">
+          <AiFillCloseCircle className="closeBtn" onClick={handleCloseBtnClick}/>
           {questionSetion === 1 && <div className="addBookPopOutForm">
             <h2>When did you read this book?</h2>
             <input type="date" value={userInput.date} onChange={(e) => handleDataChange(e, 'date')}/>
@@ -175,8 +186,11 @@ const Search = ({user, addBookToBookCase}: myProps) => {
             </div>
           </div>}
           {questionSetion === 2 && <div className="addBookPopOutForm">
-            <h2>What did you think?</h2>
-            <input className="addBookReviewInput" type="text" value={userInput.review} onChange={(e) => handleDataChange(e, 'review')}/>
+            <div className="reviewPopOutText">
+              <h2>What did you think?</h2>
+              <p>(max 100 characters)</p>
+            </div>
+            <textarea className="addBookReviewInput" maxLength={100} value={userInput.review} onChange={(e) => handleDataChange(e, 'review')}/>
             <div className="addBookPopOutFormBtns">
               <button onClick={moveToPreviousQuestion}>back</button>
               <button onClick={() => {

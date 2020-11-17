@@ -23,10 +23,20 @@ $background-color: #F6E7D8;
   max-height: 40vh;
   max-width: 90vw;
   align-items: center;
+  position: relative;
+
 
   img {
     max-height: 240px;
     margin: 0 1rem;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -79,9 +89,22 @@ $background-color: #F6E7D8;
       border:none;
       padding: 0.5rem 1rem;
     }
+
   }
   .addBookReviewInput {
-    padding: 2rem 0;
+    height: 100px;
+    width: 60vw;
+  }
+
+  .reviewPopOutText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      margin: 0 0 1rem 0;
+    }
   }
 }
 
