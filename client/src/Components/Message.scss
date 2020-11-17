@@ -7,6 +7,7 @@
   border: 6px solid #f1dac3;
   border-radius: 10px;
   align-items: center;
+  position: relative;
 
   .requestBtnsContainer {
     display: flex;
@@ -23,7 +24,13 @@
 
   .friendRequestBtnReject { color: red;}
 
-  .resolveRequestBtn {
-    color: green;
+  .resolvedBtnReject {
+    color: black;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
+
 }

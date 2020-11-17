@@ -56,7 +56,7 @@ const Message: FunctionComponent<MessageProps> = ({activity, confirmFriend, user
         </div>}
       {activity.type === 'resolved' && 
         <div>
-          <IoIosCheckmarkCircle className="resolveRequestBtn" onClick={handleClick} />
+          <IoIosCloseCircle className="resolvedBtnReject" onClick={() => handleClick('reject')} />
         </div>}
     </div>
   )

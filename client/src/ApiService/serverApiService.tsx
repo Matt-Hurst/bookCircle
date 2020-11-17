@@ -58,7 +58,7 @@ async function rejectFriend(activity: ActivityLog): Promise<Object> {
 }
 
 async function addBook(newbook: NewBook) {
-  return await fetch('http://localhost:3001/addBook', {
+  const result = await fetch('http://localhost:3001/addBook', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -66,7 +66,8 @@ async function addBook(newbook: NewBook) {
       body: JSON.stringify(newbook)
     })
     .then(response => response.json())
-    .then(result => console.log('FROM SERVER: ',result))
+
+    return result
 }
 
 async function getAvailableBooks(id: string |null) {

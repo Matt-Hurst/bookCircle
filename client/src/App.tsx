@@ -16,7 +16,7 @@ import { ActivityLog, User, AddFriend, BookRequest, NewBook } from './Interfaces
 import './App.scss';
 
 function App() {
-  const [userLoggedIn, setUserLoggedIn] = useState<User>()
+  const [userLoggedIn, setUserLoggedIn] = useState<any>()
 
   async function getUserData (name: string) {
     const user: User = await getUser(name);
@@ -26,8 +26,8 @@ function App() {
   // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
-    getUserData('Matt')
-  }, [userLoggedIn])
+    getUserData('Mo')
+  }, [])
 
   // function to add friend
   const handleAddFriend = async (obj: AddFriend) => {
@@ -71,7 +71,8 @@ function App() {
   // add book
   const addBookToBookCase = async (newbook: NewBook) => {
     const result: any = await addBook(newbook);
-    setUserLoggedIn(result)
+    console.log(result)
+    setUserLoggedIn({...userLoggedIn, books: result})
   }
 
   return (

@@ -26,10 +26,10 @@ const FriendsBook:FunctionComponent<FriendsBookProps>  = (
     if (getSelectedFriend) getSelectedFriend(clickedBook.friendName)
   }, [])
 
-  const handleClick = () => {
-    if (updateAvailableBooks) updateAvailableBooks()
-    handleBookRequest(clickedBook)
+  const handleClick = async () => {
+    await handleBookRequest(clickedBook)
     setButtonText('requested')
+    if (updateAvailableBooks)  updateAvailableBooks()
   }
 
   const handleCloseClick = (): void => {

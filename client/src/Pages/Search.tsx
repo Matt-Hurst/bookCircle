@@ -62,9 +62,9 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     .catch(error => {console.log(error)})
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    getBook(search);
+    await getBook(search);
     setSearch('');
   };
 
@@ -144,15 +144,6 @@ const Search = ({user, addBookToBookCase}: myProps) => {
     }
     await addBookToBookCase(newBook)
 
-    // await fetch('http://localhost:3001/addBook', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(newBook)
-    // })
-    // .then(response => response.json())
-    // .then(result => console.log('FROM SERVER: ',result))
     setBookClicked(undefined);
     setUserInput({
       date: undefined,

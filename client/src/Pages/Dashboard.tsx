@@ -34,7 +34,7 @@ const Dashboard: FunctionComponent<DashboardProps> = (
   }) => {
     const [borrowableBooks, setBorrowableBooks] = useState(null)
     const [updateTargetClicked, setUpdateTargetClicked] = useState(false)
-    const [bookClicked, setBookClicked] = useState<Book>()
+    const [bookClicked, setBookClicked] = useState<Book | null>()
 
   async function handleUpdateTarget (newTarget: number) {
     await updateYearlyTarget(user._id, newTarget)
@@ -60,7 +60,11 @@ const Dashboard: FunctionComponent<DashboardProps> = (
 
   useEffect( () => {
     getAllAvailableBooks(user._id)
-  } ,[borrowableBooks, user._id])
+
+    // return function () {
+    //   setBorrowableBooks(null)
+    // }
+  } ,[])
 
   let booksReadThisYear = 0;
 
