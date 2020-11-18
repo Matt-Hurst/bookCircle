@@ -1,7 +1,8 @@
 import React from 'react';
+import Header from './Components/AuthHeader'
 const UnauthenticatedApp = () => {
   return (
-  <div>I AM UNAUTHENTICATED</div>
+  <Header />
   )
 }
 

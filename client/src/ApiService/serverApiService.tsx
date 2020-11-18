@@ -47,7 +47,7 @@ async function acceptFriend(activity: ActivityLog): Promise<Object> {
 
 async function rejectFriend(activity: ActivityLog): Promise<Object> {
   const result = await fetch(URL+'rejectFriendRequest', {
-    method: 'POST',
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     },
