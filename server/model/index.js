@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { stringify } = require('uuid');
 
 const activityLogSchema = new mongoose.Schema({
   message: String,
@@ -11,7 +10,7 @@ const activityLogSchema = new mongoose.Schema({
   title: String
 })
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: String,
   password: String,
   books: Array,
@@ -21,35 +20,12 @@ const userSchema = mongoose.Schema({
   yearlyTarget: Number
 });
 
+userSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+}
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-
-// DATA STRUCTURE TODO:
-/*
-{
-  {
-    _id: 1827312,
-    name: "hairyBellyNo4",
-    password: string
-    books: [
-      {
-        title: string,
-        author: string,
-        imageUrl: string,
-        dateRead: date,
-        review: string,
-        availableToBorrow: boolean,
-        wantBack: boolean,
-        genre: string,
-        star: boolean 
-      },{...},{...}
-    ],
-    friends: [_id, _id, _id, _id],
-    pendingFriends: [_id, _id]
-    activityLog: [{request: 'string', type: (bookRequest/friendRequest) 'string',}],
-    yearlyTarget: number;
-  }
-
-}
-*/

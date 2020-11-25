@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useEffect } from 'react'
+import React, { useState, FunctionComponent } from 'react'
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,7 +26,8 @@ type AuthAppProps = {
   updateYearlyTarget: Function,
   addBookToBookCase: Function,
   removeBookFromBookCase: Function,
-  editBook: Function
+  editBook: Function,
+  logout: Function
 }
 
 const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
@@ -40,7 +41,8 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
   updateYearlyTarget,
   addBookToBookCase,
   removeBookFromBookCase,
-  editBook
+  editBook,
+  logout
   }) => {
   const [selectedFriend, setSelectedFriend] = useState<User>()
 
@@ -104,6 +106,7 @@ const AuthenticatedApp: FunctionComponent<AuthAppProps> = (
             <Search user={user} addBookToBookCase={addBookToBookCase}/>
           </Route>
         </Switch>
+        <button onClick={() => logout()}>logout</button>
       </main>
     </Router>
   )
