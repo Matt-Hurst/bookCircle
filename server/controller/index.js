@@ -1,11 +1,12 @@
 const { init } = require('../model');
 const User = require('../model');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-exports.getCtrl = async (req,res) => { // TODO: remove - for testing purposes only
-  const result = await User.find();
-  res.send(result);
-};
+exports.getCurrentUserCtrl = (req, res) => {
+  res.send(req.user)
+}
 
 exports.getUserCtrl = async (req, res) => {
   const user = await User.find({name: req.params.name})
@@ -13,15 +14,32 @@ exports.getUserCtrl = async (req, res) => {
 }
 
 exports.getFriendsNameCtrl = async (req, res) => {
-  // const user = await User.find({name: 'Matt'}, 'friends') // returns { friends: [], _id: 1231}
  const result = await User.findById(req.params.id, 'name')
   res.send(result)
 }
 
+exports.loginCtrl = async (req, res) => {
+  try {
+    const { name, password } = req.body
+    const user = await User.findOne({name})
+    const result = await bcrypt.compare(password, user.password)
+    if (!result) throw new Error('Invalid username or password!')
+    const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET)
+    res.send({token})
+  } catch (error) {
+    console.error('ERROR', error)
+  }
+}
+
 exports.createUserCtrl = async (req,res) => {
   try {
+    const { name, password } = req.body
+    const existingUser = await User.findOne({name})
+    if (existingUser) throw new Error('Username taken')
+    const hashed = await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS))
     const newUser = new User({
-      ...req.body,
+      name,
+      password: hashed,
       books: [],
       friends: [],
       activityLog: [],
@@ -30,20 +48,18 @@ exports.createUserCtrl = async (req,res) => {
     await newUser.save((err) => {
       if (err) return console.log(err);
     });
-    res.send(newUser);
+    const token = jwt.sign({_id: newUser._id}, process.env.JWT_SECRET)
+    res.send({token})
   } catch (error) {
     console.error('ERROR', error)
   }
 };
 
-exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publishing
+exports.addBookCrtl = async (req, res) => {
   try {
-    // will receive book information on req.body
     const newBook = {...req.body.book, id:uuidv4()};
-    // find user by _id or name
     const query = {name: req.body.user};
     const options = { new: true };
-    // need to push to front of books array in database
     const user = await User.findOneAndUpdate(query, { 
       $push: { 
         books: {
@@ -51,7 +67,6 @@ exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publi
           $position: 0
      }}  
     }, options);
-    // send back updated users books array + send 201 status
     res.status(201).send(user.books)
   } catch (error) {
     console.error('ERROR', error)
@@ -61,7 +76,6 @@ exports.addBookCrtl = async (req, res) => { //TODO: delete comments before publi
 exports.searchUsersCtrl = async (req, res) => {
   const { name } = req.params
   try {
-    // result = await User.find({name: name}, 'name _id').exec() 
     result = await User.find(
       {
       name: {
@@ -84,8 +98,6 @@ exports.addFriendCtrl = async (req, res) => {
         pendingFriends: req.body.friend_id  
     }}, options);
 
-    // needs to add message to person that user has attempted to contact
-    // add message to the front of their activity log array
     await User.findOneAndUpdate({_id: req.body.friend_id}, {
       $push: { 
         activityLog: {
@@ -101,7 +113,6 @@ exports.addFriendCtrl = async (req, res) => {
 
 exports.confirmFriendCtrl = async (req, res) => { 
   try {
-    // { initiatorId: _id, responderId: _id, createdat }
     const { senderId, userId, createdAt } = req.body;
   
     const responder = await User.findByIdAndUpdate(userId, {
@@ -129,13 +140,9 @@ exports.confirmFriendCtrl = async (req, res) => {
 exports.rejectFriendRequestCtrl = async (req, res) => {
   try {
     const {createdAt, userId, senderId} = req.body
-    // data { createdAt = _id, userId: 12312, senderId: 12321 }
- 
-    // remove message from responder
-    const responder = await User.findByIdAndUpdate(userId, {
+     const responder = await User.findByIdAndUpdate(userId, {
       $pull : { activityLog: {createdAt: createdAt} }
     }, {new: true})
-    // remove responder id from initiator prending array
     await User.findByIdAndUpdate(senderId, {
         $push : {
           activityLog: {
@@ -145,7 +152,6 @@ exports.rejectFriendRequestCtrl = async (req, res) => {
       },
       $pull : { pendingFriends: userId }
     }, {new: true})
-    // add rejected friend request to activity log
     res.send(responder)
   } catch (error) {
     console.error('ERROR', error)
@@ -166,7 +172,6 @@ exports.updateTargetCtrl = async (req, res) => {
 
 exports.removeActivityLogElementCtrl = async (req, res) => {
   try {
-    // data { userId: 13212, createdAt: "5fad2a..." }
     const { userId, createdAt } = req.body;
     const updatedUser = await User.findByIdAndUpdate(userId, {
       $pull : { activityLog: {createdAt: createdAt} }
@@ -178,11 +183,8 @@ exports.removeActivityLogElementCtrl = async (req, res) => {
 }
 
 exports.requestBookCtrl = async (req, res) => {
-  // { user = name, book, friendId } => date to receive should look something like this..
   const { user, book, friendId } = req.body
-
   try {
-    //find and update book owner by Id
     await User.updateOne({
       _id: friendId, books: { $elemMatch: { id: book.id}}
     },
@@ -190,7 +192,6 @@ exports.requestBookCtrl = async (req, res) => {
     )
     
     const result = await User.findByIdAndUpdate(friendId, {
-      //push activity log type bookRequest to owner of book
       $push : {
         activityLog: {
           $each: [{message: `${user.name} wants to borrow ${book.title}.`, book: book.id, title: book.title, type: 'bookRequest', senderId: user._id, createdAt: Date.now()}],
@@ -198,8 +199,6 @@ exports.requestBookCtrl = async (req, res) => {
         },
       },
     }, {new: true});
-    // //set availableToBorrow to false
-  
     res.send(result)
   } catch (error) {
     console.error('ERROR', error)
@@ -296,7 +295,7 @@ exports.editBookCtrl = async (req, res) => {
   }
 }
 
-exports.deleteBook = async (req, res) => {
+exports.deleteBookCtrl = async (req, res) => {
   try {
     const {userId, bookId} = req.body
     const result = await User.findByIdAndUpdate(userId, {

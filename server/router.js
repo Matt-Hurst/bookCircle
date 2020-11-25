@@ -1,6 +1,7 @@
 const router = require('express').Router();
+const { authMiddleware } = require('./middleware/authMiddleware')
 const { 
-  getCtrl, 
+  getCurrentUserCtrl,
   createUserCtrl, 
   addBookCrtl, 
   addFriendCtrl,
@@ -16,35 +17,30 @@ const {
    searchUsersCtrl,
    getAvailableBooksCtrl,
    editBookCtrl,
-   deleteBook
+   deleteBookCtrl,
+   loginCtrl
    } = require('./controller')
 
-router.get('/', getCtrl)
 // USER ROUTES
-router.get('/getUser/:name', getUserCtrl)
+router.get('/getCurrentUser', authMiddleware, getCurrentUserCtrl)
+router.get('/getUser/:name', authMiddleware, getUserCtrl)
 router.post('/createUser', createUserCtrl)
-router.put('/updateTarget', updateTargetCtrl) //TODO: Can this be deleted??
-router.delete('/removeActivityLogElement', removeActivityLogElementCtrl)
+router.post('/login', loginCtrl)
+router.put('/updateTarget', authMiddleware, updateTargetCtrl)
+router.delete('/removeActivityLogElement', authMiddleware, removeActivityLogElementCtrl)
 //FRIEND ROUTES
-router.get('/searchFriend/:name', searchUsersCtrl)
-router.post('/addFriend', addFriendCtrl)
-router.post('/confirmFriend', confirmFriendCtrl)
-router.delete('/rejectFriendRequest', rejectFriendRequestCtrl)
-router.get('/getFriendsNames/:id', getFriendsNameCtrl)
+router.get('/searchFriend/:name', authMiddleware, searchUsersCtrl)
+router.post('/addFriend', authMiddleware, addFriendCtrl)
+router.post('/confirmFriend', authMiddleware, confirmFriendCtrl)
+router.delete('/rejectFriendRequest', authMiddleware, rejectFriendRequestCtrl)
+router.get('/getFriendsNames/:id', authMiddleware, getFriendsNameCtrl)
 //BOOK ROUTES
-router.post('/addBook', addBookCrtl)
-router.post('/requestBook', requestBookCtrl)
-router.post('/acceptBookRequest', acceptBookRequestCtrl)
-router.post('/rejectBookRequest', rejectBookRequestCtrl)
-router.get('/availableBooks/:userId', getAvailableBooksCtrl)
-router.put('/editBook', editBookCtrl)
-router.delete('/deleteBook', deleteBook )
-
-// ROUTES REQUIRED TODO:
-
-// TODO: get user info upon login => router.get('/:username')
-
-// TODO: remove book from library => router.delete('/removeBook') => if added wrong book for example
-
+router.post('/addBook', authMiddleware, addBookCrtl)
+router.post('/requestBook', authMiddleware, requestBookCtrl)
+router.post('/acceptBookRequest', authMiddleware, acceptBookRequestCtrl)
+router.post('/rejectBookRequest', authMiddleware, rejectBookRequestCtrl)
+router.get('/availableBooks/:userId', authMiddleware, getAvailableBooksCtrl)
+router.put('/editBook', authMiddleware, editBookCtrl)
+router.delete('/deleteBook', authMiddleware, deleteBookCtrl )
 
 module.exports = router

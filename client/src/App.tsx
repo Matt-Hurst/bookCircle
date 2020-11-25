@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom'
 import UnauthenticatedApp from './UnauthenticatedApp'
 import AuthenticatedApp from './AuthenticatedApp'
 import { 
-  getUser, 
   acceptFriend, 
   rejectFriend, 
   acceptBookRequest,
@@ -12,23 +12,25 @@ import {
   updateTarget,
   addBook,
   deleteBook,
-  updateBook
+  updateBook,
+  getCurrentUser
   } from './ApiService/serverApiService'
 import { ActivityLog, User, AddFriend, BookRequest, NewBook, Book } from './Interfaces'
 import './App.scss';
 
 function App() {
   const [userLoggedIn, setUserLoggedIn] = useState<any>()
+  const history = useHistory();
 
-  async function getUserData (name: string) {
-    const user: User = await getUser(name);
+  async function getUserData () {
+    const user: User = await getCurrentUser();
     setUserLoggedIn(user);
   }
 
   // TODO: function that saves all friends books available to borrow to state
   
   useEffect( () => {
-    getUserData('Matt')
+    getUserData()
   }, [])
 
   // function to add friend
@@ -86,9 +88,15 @@ function App() {
     setUserLoggedIn(result)
   }
 
+  const logout = () => {
+    localStorage.removeItem('token')
+    history.push('/')
+    history.go(0)
+  }
+
   return (
     <div>
-    { userLoggedIn && 
+    { userLoggedIn ? 
     <AuthenticatedApp 
     user={userLoggedIn} 
     confirmFriend={confirmFriend} 
@@ -101,8 +109,9 @@ function App() {
     addBookToBookCase={addBookToBookCase}
     removeBookFromBookCase={removeBookFromBookCase}
     editBook={editBook}
-    />}
-    { !userLoggedIn && <UnauthenticatedApp />}
+    logout={logout}
+    /> : 
+    <UnauthenticatedApp />}
    </div>
   );
 }
